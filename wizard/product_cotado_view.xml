@@ -1,0 +1,52 @@
+<odoo>
+    <record id="quoted_product_action" model="ir.actions.act_window">
+        <field name="name">Produto Cotado</field>
+        <field name="res_model">quoted.product</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="quoted_product_form" model="ir.ui.view">
+        <field name="name">Produto Cotado Form</field>
+        <field name="model">quoted.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <h1><field name="product_id" options="{'no_open':True}" readonly="1"/></h1>
+                        </group>
+                        <group>
+                            <div style="text-align: right">
+                                <field name="product_image" widget="image" nolabel="1" width="400px"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Informações do Produto">
+                            <group>
+                                <group>
+                                    <field name="product_brand_ids" nolabel="1" widget="many2many_tags"/>
+                                    <field name="product_type"/>
+                                    <field name="product_barcode"/>
+                                </group>
+                                <group>
+                                    <field name="product_accessories" widget="many2many_tags" readonly="1"/>
+                                    <field name="product_fipe_ids" string="Serve em" widget="many2many_tags"/>
+                                    <label for="showproductinformation">
+                                        <strong>Preço</strong>
+                                    </label>
+                                    <button name="showproductinformation" string="Ver Preço" class="btn btn-primary"
+                                            type="object"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="cancela" string="Cancelar" type="object"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

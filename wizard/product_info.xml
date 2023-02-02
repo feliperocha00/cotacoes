@@ -1,0 +1,115 @@
+<odoo>
+    <record id="product_info_action" model="ir.actions.act_window">
+        <field name="name">Product Information</field>
+        <field name="res_model">quoted.product.info</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="product_info_form_view" model="ir.ui.view">
+        <field name="name">Product Information</field>
+        <field name="model">quoted.product.info</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="opt_product_ids" invisible="1"/>
+                <field name="product_template_id" invisible="1"/>
+                <field name="product_accessories_ids" invisible="1"/>
+                <field name="is_unv" invisible="1"/>
+                <group>
+                    <group>
+                        <h1><field name="product_id" options="{'no_open':True}" readonly="1"/></h1>
+                    </group>
+                    <group>
+                        <div style="text-align: right">
+                            <field name="product_image" widget="image" nolabel="1" width="400px"/>
+                        </div>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="product_price"/>
+                    </group>
+                    <group>
+                        <field name="product_qty" force_save="1"/>
+                    </group>
+                </group>
+                <hr></hr>
+                <group>
+                    <group>
+                        <field name="wish_qty" widget="integer"/>
+                    </group>
+                    <group>
+                        <field name="wish_sec_qty" widget="integer"
+                               attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"/>
+                    </group>
+                </group>
+                <hr></hr>
+                <group>
+                    <field name="accessories_ids" attrs="{'invisible':[('product_qty','=',0)]}">
+                        <tree editable="1">
+                            <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="name"/>
+                            <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                   readonly="1"/>
+                            <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
+                            <field name="lst_price" readonly="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="variant_ids" attrs="{'invisible':[('is_unv','=',0)]}">
+                        <tree editable="1">
+                            <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="name"/>
+                            <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                   readonly="1"/>
+                            <field name="accessory_product_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
+                            <field name="lst_price" string="Preço" readonly="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="var_accessory_ids" attrs="{'invisible':[('variant_ids','=',[])]}">
+                        <tree editable="1">
+                            <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="name"/>
+                            <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                   readonly="1"/>
+                            <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
+                            <field name="lst_price" readonly="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="optional_ids" attrs="{'invisible':[('is_unv','=',0)]}">
+                        <tree editable="1">
+                            <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="name"/>
+                            <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                   readonly="1"/>
+                            <field name="accessory_product_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
+                            <field name="lst_price" string="Preço" readonly="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="opt_accessories_ids" attrs="{'invisible':[('optional_ids','=',[])]}">
+                        <tree editable="1">
+                            <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="name"/>
+                            <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                   readonly="1"/>
+                            <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
+                            <field name="lst_price" readonly="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="quote" string="Finalizar" class="btn btn-primary" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

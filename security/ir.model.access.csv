@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+cotacao_user,cotacao_user,model_cotacoes,base.group_user,1,1,1,1
+product_search_user,product_search_user,model_product_search,base.group_user,1,1,1,1
+product_cotado_user,product_cotado_user,model_quoted_product,base.group_user,1,1,1,1
+info_product_user,info_product_user,model_quoted_product_info,base.group_user,1,1,1,1
+
