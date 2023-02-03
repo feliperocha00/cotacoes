@@ -15,18 +15,18 @@
                     <label for="product_id"/>
                     <div class="o_row">
                         <div style="max-width: 37px">
-                            <field name="wish_qty" widget="integer"/>
+                            <field name="wish_qty" widget="integer" tabindex="1"/>
                         </div>
                         <div>
                             <field name="product_id" options="{'no_open':True, 'no_create':True, 'no_create_edit':True}"
-                                   context="{'tree_view_ref': 'cotacoes.search_more_inherit_list_view'}"/>
+                                   context="{'tree_view_ref': 'cotacoes.search_more_inherit_list_view'}" tabindex="2"/>
                         </div>
                         <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
-                                attrs="{'invisible':[('product_id','=',False)]}"/>
+                                attrs="{'invisible':[('product_id','=',False)]}" tabindex="3"/>
                     </div>
                 </group>
                 <footer>
-                    <button name="throwback" type='object' string="Voltar"/>
+                    <button name="throwback" type='object' string="Voltar" tabindex="4"/>
                 </footer>
             </form>
         </field>

@@ -4,6 +4,11 @@ from odoo import models, fields, api, _
 class CliInherit(models.Model):
     _inherit = 'res.partner'
 
+    partner_quotes = fields.One2many(
+        comodel_name='cotacao.b.i',
+        inverse_name='partner_id'
+    )
+
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []

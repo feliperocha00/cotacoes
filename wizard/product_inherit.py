@@ -17,6 +17,8 @@ class ProductInherit(models.Model):
 
     wish_qty = fields.Float()
 
+
+
     codigo_fipe = fields.Char(
         related='fipe_ids.codigo_fipe'
     )

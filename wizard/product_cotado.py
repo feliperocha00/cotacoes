@@ -8,12 +8,12 @@ class ProductCotado(models.TransientModel):
     product_id = fields.Many2one(comodel_name='product.product')
     product_brand_ids = fields.Many2many(related='product_id.product_template_attribute_value_ids')
     product_fipe_ids = fields.Many2many(related='product_id.fipe_ids')
-    product_qty = fields.Float(related='product_id.qty_available')
+    product_qty = fields.Float(related='product_id.virtual_available')
     product_type = fields.Selection(related='product_id.type')
     product_price = fields.Float(related='product_id.lst_price')
     product_image = fields.Binary(related='product_id.image_1920')
     product_barcode = fields.Char(related='product_id.barcode')
-    product_accessories = fields.Many2many(related='product_id.accessory_product_ids',string='Acessórios')
+    product_accessories = fields.Many2many(related='product_id.accessory_product_ids', string='Acessórios')
 
     # INFORMAÇÕES DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
@@ -26,10 +26,25 @@ class ProductCotado(models.TransientModel):
         relation="cotacao_prod_rel",
     )
 
+    quotes_by_partner = fields.Many2many(
+        comodel_name='sale.order'
+    )
+
     # QUANTIDADE DESEJADA
     wish_qty = fields.Float(
         string='Quantidade desejada',
     )
+
+    @api.onchange('product_id')
+    def quotesbypartner(self):
+        if self.product_id:
+            sales_ids = []
+            sales = self.env['sale.order'].search([('partner_id.id', '=', self.partner_id.id)])
+            for prePed in sales:
+                for line in prePed.order_line:
+                    if line.product_template_id == self.product_id.product_tmpl_id:
+                        sales_ids.append(prePed.id)
+            self.quotes_by_partner = sales_ids
 
     def showproductinformation(self):
         quotelist = []
@@ -71,7 +86,7 @@ class ProductCotado(models.TransientModel):
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'product.search',
-            'views': [[self.env.ref("cotacoes.pesquisa_de_produto_form_view").id,'form']],
+            'views': [[self.env.ref("cotacoes.pesquisa_de_produto_form_view").id, 'form']],
             'context': ctx,
             'target': 'new'
         }

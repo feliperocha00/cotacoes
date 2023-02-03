@@ -22,6 +22,18 @@ class CotacoesVendas(models.TransientModel):
         relation="cotacao_product_rel",
     )
 
+    partner_quotes = fields.Many2many(
+        comodel_name='sale.order',
+    )
+
+    @api.onchange('partner_id')
+    def part_quotes(self):
+        if self.partner_id:
+            sales = self.env['sale.order'].search([('partner_id.id', '=', self.partner_id.id)])
+            self.partner_quotes = sales
+        else:
+            self.partner_quotes = False
+
     @api.onchange('partner_id')
     def costumerinform(self):
         if self.partner_id:
@@ -78,7 +90,17 @@ class CotacoesVendas(models.TransientModel):
             'payment_term_id': self.payment_conditions.id,
         }
 
+        vals_cotacao_bi = {
+            'partner_id': self.partner_id.id,
+            'expire_date': self.expire_date,
+            'payment_conditions': self.payment_conditions.id
+        }
+
         quote = self.env['sale.order'].create(vals_list)
+
+        quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
+
+        self.env['cotacao.b.i.list'].write({'cotacao_id': quote_bi.id})
 
         for prods in self.quote_list:
             name = prods.name + '(' + str(prods.product_template_attribute_value_ids.name) + ')'
@@ -90,8 +112,14 @@ class CotacoesVendas(models.TransientModel):
                                            'name': name,
                                            'product_uom_qty': prods.wish_qty})]
                 })
-
                 quote.write(vals_lines)
+
+            vals_lines_bi = ({
+                'quote_list': [(0, 0, {'wish_qty': prods.wish_qty,
+                                       'product_id': prods.id,
+                                       'quoted_stock': prods.quoted_stock})]
+            })
+            quote_bi.write(vals_lines_bi)
 
         if 1 == 1:
             qtys = self.env['product.product'].search([])
@@ -108,6 +136,8 @@ class CotacoesVendas(models.TransientModel):
             'target': 'current',
             'context': ctx
         }
+
+
 
     def cancel(self):
         if 1 == 1:

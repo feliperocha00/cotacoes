@@ -17,7 +17,9 @@
                 <field name="is_unv" invisible="1"/>
                 <group>
                     <group>
-                        <h1><field name="product_id" options="{'no_open':True}" readonly="1"/></h1>
+                        <h1>
+                            <field name="product_id" options="{'no_open':True}" readonly="1"/>
+                        </h1>
                     </group>
                     <group>
                         <div style="text-align: right">
@@ -40,12 +42,13 @@
                     </group>
                     <group>
                         <field name="wish_sec_qty" widget="integer"
-                               attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"/>
+                               attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"
+                               tabindex="1"/>
                     </group>
                 </group>
                 <hr></hr>
                 <group>
-                    <field name="accessories_ids" attrs="{'invisible':[('product_qty','=',0)]}">
+                    <field name="accessories_ids" attrs="{'invisible':[('product_qty','=',0)]}" tabindex="2">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -57,7 +60,7 @@
                     </field>
                 </group>
                 <group>
-                    <field name="variant_ids" attrs="{'invisible':[('is_unv','=',0)]}">
+                    <field name="variant_ids" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="3">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -70,7 +73,7 @@
                     </field>
                 </group>
                 <group>
-                    <field name="var_accessory_ids" attrs="{'invisible':[('variant_ids','=',[])]}">
+                    <field name="var_accessory_ids" attrs="{'invisible':[('variant_ids','=',[])]}" tabindex="4">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -82,7 +85,7 @@
                     </field>
                 </group>
                 <group>
-                    <field name="optional_ids" attrs="{'invisible':[('is_unv','=',0)]}">
+                    <field name="optional_ids" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="5">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -95,7 +98,7 @@
                     </field>
                 </group>
                 <group>
-                    <field name="opt_accessories_ids" attrs="{'invisible':[('optional_ids','=',[])]}">
+                    <field name="opt_accessories_ids" attrs="{'invisible':[('optional_ids','=',[])]}" tabindex="6">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -107,7 +110,7 @@
                     </field>
                 </group>
                 <footer>
-                    <button name="quote" string="Finalizar" class="btn btn-primary" type="object"/>
+                    <button name="quote" string="Finalizar" class="btn btn-primary" type="object" tabindex="7"/>
                 </footer>
             </form>
         </field>

@@ -37,13 +37,16 @@
                                         <strong>Preço</strong>
                                     </label>
                                     <button name="showproductinformation" string="Ver Preço" class="btn btn-primary"
-                                            type="object"/>
+                                            type="object" tabindex="1"/>
                                 </group>
                             </group>
                         </page>
+                        <page string="Cotações anteriores">
+                            <field name="quotes_by_partner" readonly="1"/>
+                        </page>
                     </notebook>
                     <footer>
-                        <button name="cancela" string="Cancelar" type="object"/>
+                        <button name="cancela" string="Cancelar" type="object" tabindex="2"/>
                     </footer>
                 </sheet>
             </form>

@@ -6,7 +6,8 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="cotacoes_sub_menu" name="Cotação" action="cotacoes_action" parent="sale.sale_order_menu"/>
+    <menuitem id="cotacoes_sub_child_menu" name="Criar cotação" action="cotacoes_action"
+              parent="cotacoes.cotacoes_sub_menu"/>
 
     <record id="cotacoes_form_view" model="ir.ui.view">
         <field name="name">cotacoes.form.view</field>
@@ -16,43 +17,51 @@
                 <group>
                     <group>
                         <field name="partner_id" required="1"
-                               options="{'no_open':True, 'no_create':True, 'no_create_edit':True}"/>
+                               options="{'no_open':True, 'no_create':True, 'no_create_edit':True}" tabindex="1"/>
+                        <field name="partner_fantasy_name"/>
                         <field name="partner_phone"/>
+                        <field name="partner_email"/>
+                    </group>
+                    <group>
+                        <field name="partner_route_id" options="{'no_open':True}" tabindex="2"/>
                         <field name="partner_street"/>
                         <field name="partner_city"/>
-                        <field name="partner_email"/>
-                        <field name="partner_fantasy_name"/>
-                    </group>
-                    <group>
-                        <field name="partner_route_id" options="{'no_open':True}"/>
                     </group>
                 </group>
                 <group>
                     <group>
-                        <field name="expire_date" required="1"/>
+                        <field name="expire_date" required="1" tabindex="3"/>
                     </group>
                     <group>
-                        <field name="payment_conditions" options="{'no_open':True}"/>
+                        <field name="payment_conditions" options="{'no_open':True}" tabindex="4"/>
                     </group>
                 </group>
-                <group>
-                    <div style="text-align: right; margin-right: 20px">
-                        <button name="productsearch" class="btn btn-primary" string="Inserir Produto" type="object"/>
-                    </div>
-                </group>
-                <field name="quote_list" readonly="1" nolabel="1">
-                    <tree options="{'no_open':True}">
-                        <field name="wish_qty" string="Qtd. Cotada"/>
-                        <field name="name" string="Produto"/>
-                        <field name="product_template_attribute_value_ids" widget="many2many_tags"
-                               fields="Atributo(s)"/>
-                        <field name="lst_price" string="Preço" sum="Total da cotação"/>
-                        <field name="quoted_stock" string="Disponível para cotar"/>
-                    </tree>
-                </field>
+                <notebook>
+                    <page string="Lista de Produtos">
+                        <field name="quote_list" readonly="1" nolabel="1">
+                            <tree options="{'no_open':True}">
+                                <field name="wish_qty" string="Qtd. Cotada"/>
+                                <field name="name" string="Produto"/>
+                                <field name="product_template_attribute_value_ids" widget="many2many_tags"
+                                       fields="Atributo(s)"/>
+                                <field name="lst_price" string="Preço"/>
+                                <field name="quoted_stock" string="Disponível para cotar"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <div style="text-align: right; margin-right: 20px">
+                                <button name="productsearch" class="btn btn-primary" string="Inserir Produto"
+                                        type="object" tabindex="5"/>
+                            </div>
+                        </group>
+                    </page>
+                    <page string="Cotações do cliente" attrs="{'invisible':[('partner_id','=',False)]}">
+                        <field name="partner_quotes" readonly="1"/>
+                    </page>
+                </notebook>
                 <footer>
                     <button name="quotecreate" class="btn btn-primary" type="object" string="Criar Pré-pedido"/>
-                    <button name="cancel" class="btn btn-danger" string="Cancelar" special=""/>
+                    <button name="cancel" class="btn btn-danger" string="Cancelar"/>
                 </footer>
             </form>
         </field>

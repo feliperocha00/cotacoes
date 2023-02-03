@@ -11,7 +11,7 @@ class ProductData(models.TransientModel):
 
     # QUANTIDADE EM ESTOQUE DO PRODUTO PRINCIPAL
     product_qty = fields.Float(
-        related='product_id.qty_available',
+        related='product_id.virtual_available',
         string='Quant. em estoque'
     )
 
@@ -42,7 +42,7 @@ class ProductData(models.TransientModel):
         comodel_name='product.product',
         relation='product_info_acessories_product_rel',
         string='Acessórios',
-        domain="[('id','in',product_accessories_ids),('qty_available','>',0)]"
+        domain="[('id','in',product_accessories_ids),('virtual_available','>',0)]"
     )
 
     # SELEÇÃO DO PRODUTO VARIANTE
@@ -50,7 +50,7 @@ class ProductData(models.TransientModel):
         comodel_name='product.product',
         relation='product_info_variant_product_rel',
         string='Produtos Variante',
-        domain="[('product_tmpl_id','=',product_template_id),('id','!=',product_id),('qty_available','>',0)]"
+        domain="[('product_tmpl_id','=',product_template_id),('id','!=',product_id),('virtual_available','>',0)]"
     )
 
     # SELEÇÃO DO ACESSÓRIO DO PRODUTO VARIANTE
@@ -58,7 +58,7 @@ class ProductData(models.TransientModel):
         comodel_name='product.product',
         relation='product_info_var_accessories_product_rel',
         string='Acessórios',
-        domain="[('qty_available','>',0)]"
+        domain="[('virtual_available','>',0)]"
     )
 
     # SELEÇÃO DO PRODUTO OPCIONAL
@@ -66,7 +66,7 @@ class ProductData(models.TransientModel):
         comodel_name='product.product',
         relation='product_info_optional_product_rel',
         string='Produtos Opcionais',
-        domain="[('product_tmpl_id','in',opt_product_ids),('qty_available','>',0)]"
+        domain="[('product_tmpl_id','in',opt_product_ids),('virtual_available','>',0)]"
     )
 
     # SELEÇÃO DO ACESSÓRIO DO PRODUTO OPCIONAL
@@ -74,7 +74,7 @@ class ProductData(models.TransientModel):
         comodel_name='product.product',
         relation='product_info_opt_accessories_search_rel',
         string='Acessórios',
-        domain="[('qty_available','>',0)]"
+        domain="[('virtual_available','>',0)]"
     )
 
     # RELACIONADO AOS PRODUTOS OPCIONAIS DO PRODUTO SELECIONADO

@@ -8,6 +8,7 @@
     'company': 'SUPERGLASS',
     'depends': ['base', 'sale_management', 'routes-main', 'product', 'account'],
     'data': [
+        'views/cotacao_bi_view.xml',
         'wizard/cotacoes_wizard_view.xml',
         'wizard/pesquisa_de_produto.xml',
         'wizard/product_inherit.xml',
