@@ -14,7 +14,9 @@
                 <sheet>
                     <group>
                         <group>
-                            <h1><field name="product_id" options="{'no_open':True}" readonly="1"/></h1>
+                            <h1>
+                                <field name="product_id" options="{'no_open':True}" readonly="1"/>
+                            </h1>
                         </group>
                         <group>
                             <div style="text-align: right">
@@ -41,8 +43,14 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Cotações anteriores">
+                        <page string="Cotações anteriores (Cliente)">
+                            <p>O campo abaixo detalha todas as cotações feitas desse produto pelo cliente selecionado
+                            </p>
                             <field name="quotes_by_partner" readonly="1"/>
+                        </page>
+                        <page string="Cotações anteriores">
+                            <p>O campo abaixo detalha todas as cotações feitas desse produto anteriormente</p>
+                            <field name="product_quotes" readonly="1"/>
                         </page>
                     </notebook>
                     <footer>

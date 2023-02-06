@@ -4,8 +4,7 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
-            <field name="standard_price" position="after">
-<!--                <field name="quoted_stock"/>-->
+            <field name="image_1920" position="after">
             </field>
         </field>
     </record>

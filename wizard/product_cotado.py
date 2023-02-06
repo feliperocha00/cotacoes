@@ -30,6 +30,11 @@ class ProductCotado(models.TransientModel):
         comodel_name='sale.order'
     )
 
+    product_quotes = fields.Many2many(
+        comodel_name='sale.order',
+        relation='quotes_product_quotes_rel'
+    )
+
     # QUANTIDADE DESEJADA
     wish_qty = fields.Float(
         string='Quantidade desejada',
@@ -39,12 +44,19 @@ class ProductCotado(models.TransientModel):
     def quotesbypartner(self):
         if self.product_id:
             sales_ids = []
+            sales_prod_ids = []
             sales = self.env['sale.order'].search([('partner_id.id', '=', self.partner_id.id)])
+            sales_prod = self.env['sale.order'].search([])
             for prePed in sales:
                 for line in prePed.order_line:
-                    if line.product_template_id == self.product_id.product_tmpl_id:
+                    if line.name == self.product_id.name:
                         sales_ids.append(prePed.id)
+            for prodQ in sales_prod:
+                for line in prodQ.order_line:
+                    if line.name == self.product_id.name:
+                        sales_prod_ids.append(prodQ.id)
             self.quotes_by_partner = sales_ids
+            self.product_quotes = sales_prod_ids
 
     def showproductinformation(self):
         quotelist = []

@@ -103,7 +103,7 @@ class CotacoesVendas(models.TransientModel):
         self.env['cotacao.b.i.list'].write({'cotacao_id': quote_bi.id})
 
         for prods in self.quote_list:
-            name = prods.name + '(' + str(prods.product_template_attribute_value_ids.name) + ')'
+            name = prods.name
 
             if prods.quoted_stock:
                 vals_lines = ({

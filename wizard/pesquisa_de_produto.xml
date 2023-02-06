@@ -11,8 +11,8 @@
         <field name="model">product.search</field>
         <field name="arch" type="xml">
             <form>
+                <h2 style="color: #543A75; text-align: center">Pesquisa do Produto</h2>
                 <group>
-                    <label for="product_id"/>
                     <div class="o_row">
                         <div style="max-width: 37px">
                             <field name="wish_qty" widget="integer" tabindex="1"/>

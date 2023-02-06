@@ -29,26 +29,39 @@
                 </group>
                 <group>
                     <group>
-                        <field name="product_price"/>
+                        <h2 style="color: #543A75">Preço</h2>
+                        <div style="font-size: 20px">
+                            <field name="product_price"/>
+                        </div>
                     </group>
                     <group>
-                        <field name="product_qty" force_save="1"/>
+                        <h2 style="color: #543A75">Estoque</h2>
+                        <div style="font-size: 20px">
+                            <field name="product_qty" force_save="1"/>
+                        </div>
                     </group>
                 </group>
                 <hr></hr>
                 <group>
                     <group>
-                        <field name="wish_qty" widget="integer"/>
+                        <h2 style="color: #543A75">Qtd. Desejada</h2>
+                        <div style="font-size: 20px">
+                            <field name="wish_qty"/>
+                        </div>
                     </group>
                     <group>
-                        <field name="wish_sec_qty" widget="integer"
-                               attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"
-                               tabindex="1"/>
+                        <h2 style="color: #543A75">Nova Qtd. Desejada</h2>
+                        <div style="font-size: 20px">
+                            <field name="wish_sec_qty" widget="integer"
+                                   attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"
+                                   tabindex="1"/>
+                        </div>
                     </group>
                 </group>
                 <hr></hr>
+                <h2 style="color: #543A75" attrs="{'invisible':[('product_qty','=',0)]}">Produtos Acessórios</h2>
                 <group>
-                    <field name="accessories_ids" attrs="{'invisible':[('product_qty','=',0)]}" tabindex="2">
+                    <field name="accessories_ids" nolabel="1" attrs="{'invisible':[('product_qty','=',0)]}" tabindex="2">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -59,8 +72,9 @@
                         </tree>
                     </field>
                 </group>
+                <h2 style="color: #543A75" attrs="{'invisible':[('is_unv','=',0)]}">Produtos Variantes</h2>
                 <group>
-                    <field name="variant_ids" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="3">
+                    <field name="variant_ids" nolabel="1" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="3">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -72,8 +86,9 @@
                         </tree>
                     </field>
                 </group>
+                <h2 style="color: #543A75" attrs="{'invisible':[('variant_ids','=',[])]}">Acessórios dos Produtos Variantes</h2>
                 <group>
-                    <field name="var_accessory_ids" attrs="{'invisible':[('variant_ids','=',[])]}" tabindex="4">
+                    <field name="var_accessory_ids" nolabel="1" attrs="{'invisible':[('variant_ids','=',[])]}" tabindex="4">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -84,8 +99,9 @@
                         </tree>
                     </field>
                 </group>
+                <h2 style="color: #543A75" attrs="{'invisible':[('is_unv','=',0)]}">Produtos Opcionais</h2>
                 <group>
-                    <field name="optional_ids" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="5">
+                    <field name="optional_ids" nolabel="1" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="5">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -97,8 +113,9 @@
                         </tree>
                     </field>
                 </group>
+                <h2 style="color: #543A75" attrs="{'invisible':[('optional_ids','=',[])]}">Acessórios dos Produtos Opcionais</h2>
                 <group>
-                    <field name="opt_accessories_ids" attrs="{'invisible':[('optional_ids','=',[])]}" tabindex="6">
+                    <field name="opt_accessories_ids" nolabel="1" attrs="{'invisible':[('optional_ids','=',[])]}" tabindex="6">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>

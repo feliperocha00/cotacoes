@@ -23,6 +23,16 @@ class CotacaoBI(models.Model):
         inverse_name='cotacao_id',
     )
 
+    # variant_ids = fields.Many2many(
+    #     comodel_name='product.product',
+    #     relation='cotacao_bi_variant_product_rel'
+    # )
+    #
+    # optional_ids = fields.Many2many(
+    #     comodel_name='product.product',
+    #     relation='cotacao_bi_optional_product_rel'
+    # )
+
 
 class CotacaoBIList(models.Model):
     _name = 'cotacao.b.i.list'
