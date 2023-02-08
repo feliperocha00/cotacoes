@@ -49,11 +49,11 @@ class ProductCotado(models.TransientModel):
             sales_prod = self.env['sale.order'].search([])
             for prePed in sales:
                 for line in prePed.order_line:
-                    if line.name == self.product_id.name:
+                    if line.product_id == self.product_id:
                         sales_ids.append(prePed.id)
             for prodQ in sales_prod:
                 for line in prodQ.order_line:
-                    if line.name == self.product_id.name:
+                    if line.product_id == self.product_id:
                         sales_prod_ids.append(prodQ.id)
             self.quotes_by_partner = sales_ids
             self.product_quotes = sales_prod_ids
@@ -77,6 +77,7 @@ class ProductCotado(models.TransientModel):
         })
         return {
             'type': 'ir.actions.act_window',
+            'name': 'Preço e mais Informações',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'quoted.product.info',
@@ -95,6 +96,7 @@ class ProductCotado(models.TransientModel):
         })
         return {
             'type': 'ir.actions.act_window',
+            'name': 'Pesquisa de Produto',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'product.search',

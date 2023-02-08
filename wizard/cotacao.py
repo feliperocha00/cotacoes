@@ -8,11 +8,12 @@ class CotacoesVendas(models.TransientModel):
     # CONSULTA DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
     partner_phone = fields.Char(string='Telefone', readonly=1)
-    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota', )
+    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota')
     partner_street = fields.Char(string='Rua', readonly=1)
     partner_city = fields.Char(string='Cidade', readonly=1)
     partner_email = fields.Char(string='E-mail', readonly=1)
     partner_fantasy_name = fields.Char(string='Nome fantasia', readonly=1)
+    date = fields.Date(string='Data de Emissão', default=date.today(), readonly=True)
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
 
@@ -74,6 +75,7 @@ class CotacoesVendas(models.TransientModel):
         })
         return {
             'type': 'ir.actions.act_window',
+            'name': 'Pesquisa de Produto',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'product.search',
@@ -81,6 +83,15 @@ class CotacoesVendas(models.TransientModel):
             'context': ctx,
             'target': 'new'
         }
+
+    @api.onchange('quote_list')
+    def will(self):
+        if self.quote_list:
+            for prods in self.quote_list:
+                if not prods.quoted_stock or not prods.wish_qty > 0:
+                    prods.write({'will_quote': False})
+                else:
+                    prods.write({'will_quote': True})
 
     def quotecreate(self):
         ctx = dict()
@@ -100,12 +111,14 @@ class CotacoesVendas(models.TransientModel):
 
         quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
-        self.env['cotacao.b.i.list'].write({'cotacao_id': quote_bi.id})
+        # self.env['cotacao.b.i.list'].write({'cotacao_id': quote_bi.id})
+
+        # vals_cotacao_bi_list = {'cotacao_id': quote_bi.id}
 
         for prods in self.quote_list:
-            name = prods.name
+            name = prods.name + '(' + str(prods.product_template_attribute_value_ids.name) + ')'
 
-            if prods.quoted_stock:
+            if prods.quoted_stock and prods.wish_qty > 0 and prods.will_quote:
                 vals_lines = ({
                     'order_line': [(0, 0, {'product_id': prods.id,
                                            'product_template_id': prods.product_tmpl_id.id,
@@ -114,12 +127,12 @@ class CotacoesVendas(models.TransientModel):
                 })
                 quote.write(vals_lines)
 
-            vals_lines_bi = ({
-                'quote_list': [(0, 0, {'wish_qty': prods.wish_qty,
-                                       'product_id': prods.id,
-                                       'quoted_stock': prods.quoted_stock})]
-            })
-            quote_bi.write(vals_lines_bi)
+            vals_lines_bi = {'wish_qty': prods.wish_qty,
+                             'product_id': prods.id,
+                             'cotacao_id': quote_bi.id,
+                             'quoted_stock': prods.quoted_stock}
+
+            self.env['cotacao.b.i.list'].create(vals_lines_bi)
 
         if 1 == 1:
             qtys = self.env['product.product'].search([])
@@ -132,23 +145,30 @@ class CotacoesVendas(models.TransientModel):
             'view_mode': "form",
             'res_id': quote.id,
             'res_model': "sale.order",
-            'views': [[self.env.ref("sale.view_order_form").id,'form']],
+            'views': [[self.env.ref("sale.view_order_form").id, 'form']],
             'target': 'current',
             'context': ctx
         }
 
-
-
     def cancel(self):
-        if 1 == 1:
-            qtys = self.env['product.product'].search([])
-            for prods in qtys:
-                prods.write({'wish_qty': 0})
+        vals_cotacao_bi = {
+            'partner_id': self.partner_id.id,
+            'expire_date': self.expire_date,
+            'payment_conditions': self.payment_conditions.id
+        }
 
+        quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
-class SalesInherit(models.Model):
-    _inherit = 'sale.order'
+        self.env['cotacao.b.i.list'].write({'cotacao0_id': quote_bi.id})
 
-    @api.model
-    def create(self, vals_list):
-        return super(SalesInherit, self).create(vals_list)
+        for prods in self.quote_list:
+            vals_lines_bi = ({
+                'quote_list': [(0, 0, {'wish_qty': prods.wish_qty,
+                                       'product_id': prods.id,
+                                       'quoted_stock': prods.quoted_stock})]
+            })
+            quote_bi.write(vals_lines_bi)
+
+        qtys = self.env['product.product'].search([])
+        for prods in qtys:
+            prods.write({'wish_qty': 0})

@@ -165,10 +165,11 @@ class ProductData(models.TransientModel):
         for optacess in self.opt_accessories_ids.ids:
             quotelist.append(optacess)
 
-        quotelist.append(self.product_id.id)
+        # quotelist.append(self.product_id.id)
 
         if self.wish_qty > self.product_qty:
             self.product_id.write({'wish_qty': self.wish_sec_qty})
+            # self.product_id.write({'pre_wish_qty': self.wish_qty})
         else:
             self.product_id.write({'wish_qty': self.wish_qty})
 

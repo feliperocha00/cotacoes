@@ -5,7 +5,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="cotacoes_sub_menu" name="-Cotações" parent="sale.sale_order_menu"/>
+    <menuitem id="cotacoes_sub_menu" name="Cotações" parent="sale.sale_order_menu"/>
     <menuitem id="cotacoes_bi_sub_child_menu" name="Lista de Cotações" action="cotacao_bi_action"
               parent="cotacoes.cotacoes_sub_menu"/>
 
@@ -35,23 +35,19 @@
                             <field name="partner_phone"/>
                             <field name="partner_email"/>
                             <field name="partner_fantasy_name"/>
+                            <field name="expire_date" required="1"/>
                         </group>
                         <group>
                             <field name="partner_route_id" options="{'no_open':True}"/>
                             <field name="partner_street"/>
                             <field name="partner_city"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="expire_date" required="1"/>
-                        </group>
-                        <group>
+                            <field name="date"/>
                             <field name="payment_conditions" options="{'no_open':True}"/>
                         </group>
                     </group>
                     <field name="quote_list" nolabel="1">
                         <tree>
+                            <field name="pre_wish_qty" string="Qtd. Desejada"/>
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="product_id" string="Produto"/>
                             <field name="product_brands" string="Marca" widget="many2many_tags"/>

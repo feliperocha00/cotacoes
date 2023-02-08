@@ -11,6 +11,7 @@
         <field name="model">quoted.product.info</field>
         <field name="arch" type="xml">
             <form>
+                <h2 style="color: #543A75; text-align: center">Preço e mais Informações</h2>
                 <field name="opt_product_ids" invisible="1"/>
                 <field name="product_template_id" invisible="1"/>
                 <field name="product_accessories_ids" invisible="1"/>
@@ -50,7 +51,7 @@
                         </div>
                     </group>
                     <group>
-                        <h2 style="color: #543A75">Nova Qtd. Desejada</h2>
+                        <h2 style="color: #543A75" attrs="{'invisible':[('is_unv','=',0)]}">Nova Qtd. Desejada</h2>
                         <div style="font-size: 20px">
                             <field name="wish_sec_qty" widget="integer"
                                    attrs="{'readonly':[('product_qty','=',0)], 'invisible':[('is_unv','=',0)]}"
@@ -61,7 +62,9 @@
                 <hr></hr>
                 <h2 style="color: #543A75" attrs="{'invisible':[('product_qty','=',0)]}">Produtos Acessórios</h2>
                 <group>
-                    <field name="accessories_ids" nolabel="1" attrs="{'invisible':[('product_qty','=',0)]}" tabindex="2">
+                    <field name="accessories_ids" nolabel="1"
+                           attrs="{'invisible':['|',('product_qty','=',0),('product_accessories_ids','=',False)]}"
+                           tabindex="2">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -86,9 +89,12 @@
                         </tree>
                     </field>
                 </group>
-                <h2 style="color: #543A75" attrs="{'invisible':[('variant_ids','=',[])]}">Acessórios dos Produtos Variantes</h2>
+                <h2 style="color: #543A75" attrs="{'invisible':[('variant_ids','=',[])]}">Acessórios dos Produtos
+                    Variantes
+                </h2>
                 <group>
-                    <field name="var_accessory_ids" nolabel="1" attrs="{'invisible':[('variant_ids','=',[])]}" tabindex="4">
+                    <field name="var_accessory_ids" nolabel="1" attrs="{'invisible':[('variant_ids','=',[])]}"
+                           tabindex="4">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -113,9 +119,12 @@
                         </tree>
                     </field>
                 </group>
-                <h2 style="color: #543A75" attrs="{'invisible':[('optional_ids','=',[])]}">Acessórios dos Produtos Opcionais</h2>
+                <h2 style="color: #543A75" attrs="{'invisible':[('optional_ids','=',[])]}">Acessórios dos Produtos
+                    Opcionais
+                </h2>
                 <group>
-                    <field name="opt_accessories_ids" nolabel="1" attrs="{'invisible':[('optional_ids','=',[])]}" tabindex="6">
+                    <field name="opt_accessories_ids" nolabel="1" attrs="{'invisible':[('optional_ids','=',[])]}"
+                           tabindex="6">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
                             <field name="name"/>
@@ -127,7 +136,9 @@
                     </field>
                 </group>
                 <footer>
-                    <button name="quote" string="Finalizar" class="btn btn-primary" type="object" tabindex="7"/>
+                    <div style="text-align: center">
+                        <button name="quote" string="Finalizar" class="btn btn-primary" type="object" tabindex="7"/>
+                    </div>
                 </footer>
             </form>
         </field>

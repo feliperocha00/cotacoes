@@ -11,52 +11,51 @@
         <field name="model">quoted.product</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
+                <h2 style="color: #543A75; text-align: center">Informações do Produto</h2>
+                <group>
                     <group>
-                        <group>
-                            <h1>
-                                <field name="product_id" options="{'no_open':True}" readonly="1"/>
-                            </h1>
-                        </group>
-                        <group>
-                            <div style="text-align: right">
-                                <field name="product_image" widget="image" nolabel="1" width="400px"/>
-                            </div>
-                        </group>
+                        <h1>
+                            <field name="product_id" options="{'no_open':True}" readonly="1"/>
+                        </h1>
                     </group>
-                    <notebook>
-                        <page string="Informações do Produto">
+                    <group>
+                        <div style="text-align: right">
+                            <field name="product_image" widget="image" nolabel="1" width="400px"/>
+                        </div>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Informações do Produto">
+                        <group>
                             <group>
-                                <group>
-                                    <field name="product_brand_ids" nolabel="1" widget="many2many_tags"/>
-                                    <field name="product_type"/>
-                                    <field name="product_barcode"/>
-                                </group>
-                                <group>
-                                    <field name="product_accessories" widget="many2many_tags" readonly="1"/>
-                                    <field name="product_fipe_ids" string="Serve em" widget="many2many_tags"/>
-                                    <label for="showproductinformation">
-                                        <strong>Preço</strong>
-                                    </label>
-                                    <button name="showproductinformation" string="Ver Preço" class="btn btn-primary"
-                                            type="object" tabindex="1"/>
-                                </group>
+                                <field name="product_brand_ids" nolabel="1" widget="many2many_tags"/>
+                                <field name="product_type"/>
+                                <field name="product_barcode"/>
                             </group>
-                        </page>
-                        <page string="Cotações anteriores (Cliente)">
-                            <p>O campo abaixo detalha todas as cotações feitas desse produto pelo cliente selecionado
-                            </p>
-                            <field name="quotes_by_partner" readonly="1"/>
-                        </page>
-                        <page string="Cotações anteriores">
-                            <p>O campo abaixo detalha todas as cotações feitas desse produto anteriormente</p>
-                            <field name="product_quotes" readonly="1"/>
-                        </page>
-                    </notebook>
-                    <footer>
-                        <button name="cancela" string="Cancelar" type="object" tabindex="2"/>
-                    </footer>
-                </sheet>
+                            <group>
+                                <field name="product_accessories" widget="many2many_tags" readonly="1"/>
+                                <field name="product_fipe_ids" string="Serve em" widget="many2many_tags"/>
+                                <label for="showproductinformation">
+                                    <strong>Preço</strong>
+                                </label>
+                                <button name="showproductinformation" string="Ver Preço" class="btn btn-primary"
+                                        type="object" tabindex="1"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Cotações anteriores (Cliente)">
+                        <p>O campo abaixo detalha todas as cotações feitas desse produto pelo cliente selecionado
+                        </p>
+                        <field name="quotes_by_partner" readonly="1"/>
+                    </page>
+                    <page string="Cotações anteriores">
+                        <p>O campo abaixo detalha todas as cotações feitas desse produto anteriormente</p>
+                        <field name="product_quotes" readonly="1"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="cancela" string="Cancelar" type="object" tabindex="2"/>
+                </footer>
             </form>
         </field>
     </record>

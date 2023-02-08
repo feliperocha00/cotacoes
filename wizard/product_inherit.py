@@ -11,11 +11,18 @@ class ProductInherit(models.Model):
         store=True
     )
 
+    will_quote = fields.Boolean(
+        string="Vai cotar",
+        default=True
+    )
+
     fipe_ano = fields.Integer(
         related='fipe_ids.ano'
     )
 
     wish_qty = fields.Float()
+
+    pre_wish_qty = fields.Float()
 
     codigo_fipe = fields.Char(
         related='fipe_ids.codigo_fipe'
@@ -26,8 +33,6 @@ class ProductInherit(models.Model):
             if vals['wish_qty'] > self.qty_available:
                 raise UserError(
                     _('Quantidade inserida do produto ' + self.name + ' maior do que a disponível do estoque'))
-            elif vals['wish_qty'] == 0:
-                raise UserError(_('Quantidade inserida do produto ' + self.name + ' não pode ser 0'))
         return super(ProductInherit, self).write(vals=vals)
 
     @api.depends("qty_available")

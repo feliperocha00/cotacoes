@@ -17,7 +17,9 @@ class CliInherit(models.Model):
         for palavra in name_split:
             array.append('|')
             array.append('|')
+            array.append('|')
             array.append(('name', operator, palavra))
+            array.append(('route_id', operator, palavra))
             array.append(('cod_hitec', operator, palavra))
             array.append(('phone', operator, palavra))
         if name:

@@ -44,6 +44,7 @@ class ProductSearch(models.TransientModel):
         })
         return {
             'type': 'ir.actions.act_window',
+            'name': 'Informações do Produto',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'quoted.product',
@@ -67,6 +68,7 @@ class ProductSearch(models.TransientModel):
         })
         return {
             'type': 'ir.actions.act_window',
+            'name': 'Cotações',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'cotacoes',

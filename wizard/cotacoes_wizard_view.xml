@@ -1,6 +1,6 @@
 <odoo>
     <record id="cotacoes_action" model="ir.actions.act_window">
-        <field name="name">Cotacao Action</field>
+        <field name="name">Cotação</field>
         <field name="res_model">cotacoes</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
@@ -14,6 +14,7 @@
         <field name="model">cotacoes</field>
         <field name="arch" type="xml">
             <form>
+                <h2 style="color: #543A75; text-align: center">Cotação</h2>
                 <group>
                     <group>
                         <field name="partner_id" required="1"
@@ -21,39 +22,33 @@
                         <field name="partner_fantasy_name"/>
                         <field name="partner_phone"/>
                         <field name="partner_email"/>
+                        <field name="expire_date" required="1" tabindex="3"/>
                     </group>
                     <group>
                         <field name="partner_route_id" options="{'no_open':True}" tabindex="2"/>
                         <field name="partner_street"/>
                         <field name="partner_city"/>
-                    </group>
-                </group>
-                <group>
-                    <group>
-                        <field name="expire_date" required="1" tabindex="3"/>
-                    </group>
-                    <group>
+                        <field name="date"/>
                         <field name="payment_conditions" options="{'no_open':True}" tabindex="4"/>
                     </group>
                 </group>
                 <notebook>
                     <page string="Lista de Produtos">
-                        <field name="quote_list" readonly="1" nolabel="1">
-                            <tree options="{'no_open':True}">
-                                <field name="wish_qty" string="Qtd. Cotada"/>
-                                <field name="name" string="Produto"/>
+                        <field name="quote_list" nolabel="1">
+                            <tree options="{'no_open':True}" editable="1">
+                                <field name="will_quote" string="Cotar" widget="toggle_button"/>
+                                <field name="wish_qty" string="Qtd. Cotada" readonly="1"/>
+                                <field name="name" string="Produto" readonly="1"/>
                                 <field name="product_template_attribute_value_ids" widget="many2many_tags"
-                                       fields="Atributo(s)"/>
-                                <field name="lst_price" string="Preço"/>
-                                <field name="quoted_stock" string="Disponível para cotar"/>
+                                       fields="Atributo(s)" readonly="1"/>
+                                <field name="lst_price" string="Preço" readonly="1"/>
+                                <field name="quoted_stock" string="Disponível para cotar" readonly="1"/>
                             </tree>
                         </field>
-                        <group>
-                            <div style="text-align: right; margin-right: 20px">
-                                <button name="productsearch" class="btn btn-primary" string="Inserir Produto"
-                                        type="object" tabindex="5"/>
-                            </div>
-                        </group>
+                        <div style="text-align: right; margin-right: 20px">
+                            <button name="productsearch" class="btn btn-primary" string="Inserir Produto"
+                                    type="object" tabindex="5"/>
+                        </div>
                     </page>
                     <page string="Cotações do cliente" attrs="{'invisible':[('partner_id','=',False)]}">
                         <field name="partner_quotes" readonly="1"/>
@@ -61,7 +56,7 @@
                 </notebook>
                 <footer>
                     <button name="quotecreate" class="btn btn-primary" type="object" string="Criar Pré-pedido"/>
-                    <button name="cancel" class="btn btn-danger" string="Cancelar"/>
+                    <button name="cancel" class="btn btn-danger" string="Cancelar" special="cancel"/>
                 </footer>
             </form>
         </field>

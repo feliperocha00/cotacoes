@@ -14,6 +14,7 @@ class CotacaoBI(models.Model):
     partner_city = fields.Char(related="partner_id.city", string='Cidade')
     partner_email = fields.Char(related="partner_id.email", string='E-mail')
     partner_fantasy_name = fields.Char(related="partner_id.name_fantasy", string='Nome fantasia')
+    date = fields.Date(string='Data de Emissão', default=date.today(), readonly=True)
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
 
@@ -41,6 +42,8 @@ class CotacaoBIList(models.Model):
     cotacao_id = fields.Many2one(comodel_name='cotacao.b.i')
 
     wish_qty = fields.Float()
+
+    pre_wish_qty = fields.Float()
 
     product_id = fields.Many2one(comodel_name='product.product')
 
