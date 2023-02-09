@@ -111,14 +111,10 @@ class CotacoesVendas(models.TransientModel):
 
         quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
-        # self.env['cotacao.b.i.list'].write({'cotacao_id': quote_bi.id})
-
-        # vals_cotacao_bi_list = {'cotacao_id': quote_bi.id}
-
         for prods in self.quote_list:
             name = prods.name + '(' + str(prods.product_template_attribute_value_ids.name) + ')'
 
-            if prods.quoted_stock and prods.wish_qty > 0 and prods.will_quote:
+            if prods.quoted_stock and prods.wish_qty and prods.will_quote:
                 vals_lines = ({
                     'order_line': [(0, 0, {'product_id': prods.id,
                                            'product_template_id': prods.product_tmpl_id.id,
@@ -128,16 +124,18 @@ class CotacoesVendas(models.TransientModel):
                 quote.write(vals_lines)
 
             vals_lines_bi = {'wish_qty': prods.wish_qty,
+                             'pre_wish_qty': prods.pre_wish_qty,
                              'product_id': prods.id,
                              'cotacao_id': quote_bi.id,
-                             'quoted_stock': prods.quoted_stock}
+                             'quoted_stock': prods.quoted_stock,
+                             'will_quote': prods.will_quote}
 
             self.env['cotacao.b.i.list'].create(vals_lines_bi)
 
-        if 1 == 1:
-            qtys = self.env['product.product'].search([])
-            for prods in qtys:
-                prods.write({'wish_qty': 0})
+        qtys = self.env['product.product'].search([])
+
+        for prods in qtys:
+            prods.write({'wish_qty': 0})
 
         return {
             'type': "ir.actions.act_window",
@@ -151,6 +149,7 @@ class CotacoesVendas(models.TransientModel):
         }
 
     def cancel(self):
+
         vals_cotacao_bi = {
             'partner_id': self.partner_id.id,
             'expire_date': self.expire_date,
@@ -159,16 +158,16 @@ class CotacoesVendas(models.TransientModel):
 
         quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
-        self.env['cotacao.b.i.list'].write({'cotacao0_id': quote_bi.id})
-
         for prods in self.quote_list:
-            vals_lines_bi = ({
-                'quote_list': [(0, 0, {'wish_qty': prods.wish_qty,
-                                       'product_id': prods.id,
-                                       'quoted_stock': prods.quoted_stock})]
-            })
-            quote_bi.write(vals_lines_bi)
+
+            vals_lines_bi = {'wish_qty': prods.wish_qty,
+                             'product_id': prods.id,
+                             'cotacao_id': quote_bi.id,
+                             'quoted_stock': prods.quoted_stock}
+
+            self.env['cotacao.b.i.list'].create(vals_lines_bi)
 
         qtys = self.env['product.product'].search([])
+
         for prods in qtys:
             prods.write({'wish_qty': 0})

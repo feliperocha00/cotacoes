@@ -1,3 +1,5 @@
+from datetime import date
+
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 
@@ -26,6 +28,11 @@ class ProductInherit(models.Model):
 
     codigo_fipe = fields.Char(
         related='fipe_ids.codigo_fipe'
+    )
+
+    concorrente_prices = fields.One2many(
+        comodel_name='preco.concorrente',
+        inverse_name='product_id'
     )
 
     def write(self, vals):
@@ -63,3 +70,21 @@ class ProductInherit(models.Model):
             pesquisa = self.search(array)
             return pesquisa.name_get()
         return self.search([('name', operator, name)] + args, limit=limit).name_get()
+
+
+class PrecoConcorrente(models.Model):
+    _name = 'preco.concorrente'
+
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        string='Produto'
+    )
+
+    name = fields.Many2one(
+        comodel_name='res.partner',
+        string='Concorrente'
+    )
+
+    value = fields.Float()
+
+    data = fields.Date(default=date.today())

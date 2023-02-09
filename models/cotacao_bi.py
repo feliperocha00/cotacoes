@@ -52,3 +52,5 @@ class CotacaoBIList(models.Model):
     product_price = fields.Float(related='product_id.lst_price')
 
     quoted_stock = fields.Boolean()
+
+    will_quote = fields.Boolean()

@@ -1,3 +1,5 @@
+from datetime import date
+
 from odoo import fields, models, api, _
 
 
@@ -106,6 +108,28 @@ class ProductData(models.TransientModel):
         relation="cotacao_info_prod_rel",
     )
 
+    # SELEÇÃO OU CADASTRO DO CONCORRENTE
+    concorrente = fields.Many2one(
+        comodel_name='res.partner',
+        string='Concorrente',
+        domain="[('is_concorrente','=',True)]"
+    )
+
+    # INSERÇÃO DE VALOR DO PRODUTO NA CONCORRÊNCIA
+    value = fields.Float(
+        string='Valor na concorrência'
+    )
+
+    data = fields.Date(
+        default=date.today()
+    )
+
+    precos_de_concorrente = fields.One2many(
+        related='product_id.concorrente_prices',
+        string='Preços de concorrente'
+    )
+
+    # Booleano de disponibilidade para usar no attrs
     is_unv = fields.Integer()
 
     @api.onchange('wish_qty')
@@ -125,9 +149,10 @@ class ProductData(models.TransientModel):
     def prod_accessories(self):
         accessory = []
         if self.product_id:
-            for acess in self.product_accessories_ids.ids:
-                accessory.append(acess)
-            self.accessories_ids = accessory
+            if self.product_id.virtual_available > 0:
+                for acess in self.product_accessories_ids.ids:
+                    accessory.append(acess)
+                self.accessories_ids = accessory
 
     @api.onchange('variant_ids')
     def var_accessories(self):
@@ -149,27 +174,19 @@ class ProductData(models.TransientModel):
         quotelist = []
         for quote in self.quote_list.ids:
             quotelist.append(quote)
-
         for acess in self.accessories_ids.ids:
             quotelist.append(acess)
-
         for var in self.variant_ids.ids:
             quotelist.append(var)
-
         for varacess in self.var_accessory_ids.ids:
             quotelist.append(varacess)
-
         for opt in self.optional_ids.ids:
             quotelist.append(opt)
-
         for optacess in self.opt_accessories_ids.ids:
             quotelist.append(optacess)
-
-        # quotelist.append(self.product_id.id)
-
         if self.wish_qty > self.product_qty:
             self.product_id.write({'wish_qty': self.wish_sec_qty})
-            # self.product_id.write({'pre_wish_qty': self.wish_qty})
+            self.product_id.write({'pre_wish_qty': self.wish_qty})
         else:
             self.product_id.write({'wish_qty': self.wish_qty})
 
@@ -180,6 +197,15 @@ class ProductData(models.TransientModel):
             'default_payment_conditions': self.payment_conditions.id,
             'default_quote_list': quotelist
         })
+
+        if self.concorrente and self.value:
+            vals = {'product_id': self.product_id.id,
+                    'name': self.concorrente.id,
+                    'data': self.data,
+                    'value': self.value}
+
+            self.env['preco.concorrente'].create(vals)
+
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',

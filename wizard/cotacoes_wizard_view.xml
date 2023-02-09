@@ -34,15 +34,15 @@
                 </group>
                 <notebook>
                     <page string="Lista de Produtos">
-                        <field name="quote_list" nolabel="1">
-                            <tree options="{'no_open':True}" editable="1">
-                                <field name="will_quote" string="Cotar" widget="toggle_button"/>
-                                <field name="wish_qty" string="Qtd. Cotada" readonly="1"/>
-                                <field name="name" string="Produto" readonly="1"/>
+                        <field name="quote_list" readonly="1" nolabel="1" >
+                            <tree options="{'no_open':True}">
+                                <field name="wish_qty" string="Qtd. Cotada"/>
+                                <field name="name" string="Produto"/>
                                 <field name="product_template_attribute_value_ids" widget="many2many_tags"
-                                       fields="Atributo(s)" readonly="1"/>
-                                <field name="lst_price" string="Preço" readonly="1"/>
-                                <field name="quoted_stock" string="Disponível para cotar" readonly="1"/>
+                                       fields="Atributo(s)"/>
+                                <field name="lst_price" string="Preço"/>
+                                <field name="quoted_stock" string="Disponível para cotar"/>
+                                <field name="will_quote" string="Cotar" />
                             </tree>
                         </field>
                         <div style="text-align: right; margin-right: 20px">

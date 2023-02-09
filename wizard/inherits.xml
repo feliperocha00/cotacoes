@@ -1,0 +1,36 @@
+<odoo>
+    <record id="product_inherit_view" model="ir.ui.view">
+        <field name="name">Product Inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='options']" position="after">
+                <group>
+                    <group string="Preços de concorrente">
+    <!--                <h2 style="color: #7C7BAD">Preços de Concorrente</h2>-->
+                        <field name="concorrente_prices" nolabel="1">
+                            <tree editable="top">
+                                <field name="name"/>
+                                <field name="value"/>
+                                <field name="data"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_inherit_view" model="ir.ui.view">
+        <field name="name">Partner Inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='information_add']" position="inside">
+                <group>
+                    <field name="is_concorrente"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

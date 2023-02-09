@@ -11,7 +11,7 @@
         'views/cotacao_bi_view.xml',
         'wizard/cotacoes_wizard_view.xml',
         'wizard/pesquisa_de_produto.xml',
-        'wizard/product_inherit.xml',
+        'wizard/inherits.xml',
         'wizard/product_info.xml',
         'wizard/product_cotado_view.xml',
         'security/ir.model.access.csv',

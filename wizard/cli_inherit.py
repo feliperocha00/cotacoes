@@ -9,6 +9,10 @@ class CliInherit(models.Model):
         inverse_name='partner_id'
     )
 
+    is_concorrente = fields.Boolean(
+        string='Concorrente'
+    )
+
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []

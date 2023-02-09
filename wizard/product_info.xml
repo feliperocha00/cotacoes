@@ -28,20 +28,43 @@
                         </div>
                     </group>
                 </group>
-                <group>
-                    <group>
-                        <h2 style="color: #543A75">Preço</h2>
-                        <div style="font-size: 20px">
-                            <field name="product_price"/>
-                        </div>
-                    </group>
-                    <group>
-                        <h2 style="color: #543A75">Estoque</h2>
-                        <div style="font-size: 20px">
-                            <field name="product_qty" force_save="1"/>
-                        </div>
-                    </group>
-                </group>
+                <notebook>
+                    <page string="Informações do Produto">
+                        <group>
+                            <group>
+                                <h2 style="color: #543A75">Preço</h2>
+                                <div style="font-size: 20px">
+                                    <field name="product_price"/>
+                                </div>
+                            </group>
+                            <group>
+                                <h2 style="color: #543A75">Estoque</h2>
+                                <div style="font-size: 20px">
+                                    <field name="product_qty" force_save="1"/>
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Cadastro de concorrentes">
+                        <group>
+                            <label for="concorrente"/>
+                            <div class="o_row">
+                                <field name="concorrente"/>
+                                <div style="max-width: 70px">
+                                    <field name="value"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="precos_de_concorrente">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="value"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
                 <hr></hr>
                 <group>
                     <group>
