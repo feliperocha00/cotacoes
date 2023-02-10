@@ -107,6 +107,5 @@ class ProductSearch(models.TransientModel):
                 return {"domain": {'product_id': [('id', 'in', products.ids)]}}
             else:
                 return {'domain': {'product_id': []}}
-                # pesquisa = self.search(domain)
-                # return pesquisa.name_get()
-            # return self.search([('name', operator, name)] + args, limit=limit).name_get()
+        else:
+            self.product_id = False
