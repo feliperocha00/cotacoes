@@ -17,6 +17,7 @@ class CotacoesVendas(models.TransientModel):
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
 
+
     # LISTA DE COTAÇÃO
     quote_list = fields.Many2many(
         comodel_name="product.product",
@@ -128,14 +129,21 @@ class CotacoesVendas(models.TransientModel):
                              'product_id': prods.id,
                              'cotacao_id': quote_bi.id,
                              'quoted_stock': prods.quoted_stock,
-                             'will_quote': prods.will_quote}
+                             'will_quote': prods.will_quote,
+                             'stk_ins': prods.stk_ins}
 
             self.env['cotacao.b.i.list'].create(vals_lines_bi)
+
+
 
         qtys = self.env['product.product'].search([])
 
         for prods in qtys:
             prods.write({'wish_qty': 0})
+            prods.write({'pre_wish_qty': 0})
+            prods.write({'quoted_stock': True})
+            prods.write({'will_quote': True})
+            prods.write({'stk_ins': False})
 
         return {
             'type': "ir.actions.act_window",
