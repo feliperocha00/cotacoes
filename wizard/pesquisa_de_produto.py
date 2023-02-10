@@ -27,6 +27,13 @@ class ProductSearch(models.TransientModel):
         default=1
     )
 
+    @api.onchange('product_id')
+    def prod_accessories(self):
+        if self.product_id:
+            if self.wish_qty > self.product_id.virtual_available:
+                self.product_id.stk_ins = True
+
+
     def showproduct(self):
         quotelist = []
 

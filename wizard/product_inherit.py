@@ -35,6 +35,12 @@ class ProductInherit(models.Model):
         inverse_name='product_id'
     )
 
+    # campos relacionados a feaure de checkbox autor:Thiago Francelino Santos
+    stk_ins = fields.Boolean(
+        default=False,
+        string="Estoque insuficiente?",
+    )
+
     def write(self, vals):
         if 'wish_qty' in vals:
             if vals['wish_qty'] > self.qty_available:

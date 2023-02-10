@@ -43,6 +43,7 @@
                                 <field name="lst_price" string="Preço"/>
                                 <field name="quoted_stock" string="Disponível para cotar"/>
                                 <field name="will_quote" string="Cotar" />
+                                <field name="stk_ins"/>
                             </tree>
                         </field>
                         <div style="text-align: right; margin-right: 20px">
