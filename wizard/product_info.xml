@@ -49,7 +49,7 @@
                         <group>
                             <label for="concorrente"/>
                             <div class="o_row">
-                                <field name="concorrente"/>
+                                <field name="concorrente" options="{'no_create_edit':True}"/>
                                 <div style="max-width: 70px">
                                     <field name="value"/>
                                 </div>
