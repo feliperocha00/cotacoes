@@ -32,6 +32,12 @@
                         <field name="payment_conditions" options="{'no_open':True}" tabindex="4"/>
                     </group>
                 </group>
+                <group>
+                    <div style="text-align: center; margin-right: 20px">
+                        <button name="productsearch" class="btn btn-primary" string="Inserir Produto"
+                                type="object" tabindex="5"/>
+                    </div>
+                </group>
                 <notebook>
                     <page string="Lista de Produtos">
                         <field name="quote_list" readonly="1" nolabel="1" >
@@ -41,13 +47,13 @@
                                 <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                        fields="Atributo(s)"/>
                                 <field name="lst_price" string="Preço"/>
-                                <field name="quoted_stock" string="Disponível para cotar"/>
-                                <field name="will_quote" string="Cotar" />
+<!--                                <field name="will_quote" string="will_quote"/>-->
+<!--                                <field name="quoted_stock" string="quoted_stock"/>-->
                             </tree>
                         </field>
-                        <div style="text-align: right; margin-right: 20px">
-                            <button name="productsearch" class="btn btn-primary" string="Inserir Produto"
-                                    type="object" tabindex="5"/>
+                        <div style="text-align: right">
+                            <label for="sub_total"/>
+                            <field name="sub_total" decoration-bf="1"/>
                         </div>
                     </page>
                     <page string="Cotações do cliente" attrs="{'invisible':[('partner_id','=',False)]}">

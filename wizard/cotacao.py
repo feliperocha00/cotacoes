@@ -17,6 +17,12 @@ class CotacoesVendas(models.TransientModel):
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
 
+    # SUBTOTAL DA COTACAO PREENCHIDA PELO ONCHANGE total_comprado
+    sub_total = fields.Float(
+        string='Sub-Total',
+        readonly=True
+    )
+
     # LISTA DE COTAÇÃO
     quote_list = fields.Many2many(
         comodel_name="product.product",
@@ -26,6 +32,20 @@ class CotacoesVendas(models.TransientModel):
     partner_quotes = fields.Many2many(
         comodel_name='sale.order',
     )
+
+    # CALCULO DO PREÇO SUBTOTAL DA COTACAO
+    @api.onchange('quote_list')
+    def total_comprado(self):
+        for rec in self.quote_list:
+            self.sub_total += (rec.lst_price * rec.wish_qty)
+
+    # CALCULO DO PREÇO TOTAL DA COTACAO (NAO FUNCIONA DIREITO, CAMPOS BOOLEANS USADOS NA CONDICAO NAO
+#                                       ARMAZENAM O VALOR REAL)
+    # @api.onchange('quote_list')
+    # def total_comprado(self):
+    #     for rec in self.quote_list:
+    #         if rec.will_quote and rec.quoted_stock:
+    #             self.sub_total += (rec.lst_price * rec.wish_qty)
 
     @api.onchange('partner_id')
     def part_quotes(self):
@@ -101,13 +121,14 @@ class CotacoesVendas(models.TransientModel):
             'payment_term_id': self.payment_conditions.id,
         }
 
+        quote = self.env['sale.order'].create(vals_list)
+
         vals_cotacao_bi = {
             'partner_id': self.partner_id.id,
+            'pre_order_id': quote.id,
             'expire_date': self.expire_date,
             'payment_conditions': self.payment_conditions.id
         }
-
-        quote = self.env['sale.order'].create(vals_list)
 
         quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
