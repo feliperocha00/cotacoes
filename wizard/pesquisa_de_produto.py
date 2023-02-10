@@ -4,6 +4,9 @@ from odoo import fields, models, _, api
 class ProductSearch(models.TransientModel):
     _name = 'product.search'
 
+    #barra de pesquisa
+    product_search = fields.Char()
+
     # SELEÇÃO DO PRODUTO PRINCIPAL
     product_id = fields.Many2one(
         comodel_name='product.product',
@@ -76,3 +79,27 @@ class ProductSearch(models.TransientModel):
             'context': ctx,
             'target': 'new'
         }
+    
+    @api.onchange('product_search')
+    def search_bar(self):
+        if self.product_search:
+            name_split = self.product_search.split()
+            domain = []
+            for palavra in name_split:
+                domain.append('|')
+                domain.append('|')
+                domain.append('|')
+                domain.append('|')
+                domain.append(('name', 'ilike', palavra))
+                domain.append(('product_template_attribute_value_ids', 'ilike', palavra))
+                domain.append(('fipe_ids', 'ilike', palavra))
+                domain.append(('codigo_fipe', 'ilike', palavra))
+                domain.append(('fipe_ano', 'ilike', palavra))
+            products = self.env['product.product'].search(domain)
+            if self.product_search:
+                return {"domain": {'product_id': [('id', 'in', products.ids)]}}
+            else:
+                return {'domain': {'product_id': []}}
+                # pesquisa = self.search(domain)
+                # return pesquisa.name_get()
+            # return self.search([('name', operator, name)] + args, limit=limit).name_get()

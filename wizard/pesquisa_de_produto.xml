@@ -12,14 +12,17 @@
         <field name="arch" type="xml">
             <form>
                 <h2 style="color: #543A75; text-align: center">Pesquisa do Produto</h2>
+                <field name="product_search"/>
                 <group>
                     <div class="o_row">
                         <div style="max-width: 37px">
-                            <field name="wish_qty" widget="integer" tabindex="1"/>
+                            <field name="wish_qty" widget="integer" tabindex="1"
+                                   attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}"/>
                         </div>
                         <div>
                             <field name="product_id" options="{'no_open':True, 'no_create':True, 'no_create_edit':True}"
-                                   context="{'tree_view_ref': 'cotacoes.search_more_inherit_list_view'}" tabindex="2"/>
+                                   context="{'tree_view_ref': 'cotacoes.search_more_inherit_list_view'}" tabindex="2"
+                                   attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}"/>
                         </div>
                         <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
                                 attrs="{'invisible':[('product_id','=',False)]}" tabindex="3"/>
