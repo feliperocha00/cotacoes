@@ -15,6 +15,13 @@ class ProductCotado(models.TransientModel):
     product_barcode = fields.Char(related='product_id.barcode')
     product_accessories = fields.Many2many(related='product_id.accessory_product_ids', string='Acessórios')
 
+    #RELATEDS DE 'product_fipe_ids'
+
+    nome = fields.Char(related="product_id.fipe_ids.name")
+    marca = fields.Char(related="product_id.fipe_ids.marca")
+    ano = fields.Integer(related="product_id.fipe_ids.ano")
+    codigo_fipe = fields.Char(related="product_id.fipe_ids.codigo_fipe")
+
     # INFORMAÇÕES DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
     expire_date = fields.Date(string='Data de Vencimento')

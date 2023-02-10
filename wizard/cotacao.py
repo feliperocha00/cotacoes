@@ -8,7 +8,7 @@ class CotacoesVendas(models.TransientModel):
     # CONSULTA DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
     partner_phone = fields.Char(string='Telefone', readonly=1)
-    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota')
+    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota', readonly=1)
     partner_street = fields.Char(string='Rua', readonly=1)
     partner_city = fields.Char(string='Cidade', readonly=1)
     partner_email = fields.Char(string='E-mail', readonly=1)
@@ -55,13 +55,13 @@ class CotacoesVendas(models.TransientModel):
                 self.partner_email = False
                 self.partner_fantasy_name = False
 
-    @api.onchange('partner_route_id')
-    def routesearch(self):
-        if self.partner_route_id:
-            id = self.partner_route_id.id
-            return {"domain": {'partner_id': [('route_id', '=', id)]}}
-        else:
-            return {'domain': {'partner_id': []}}
+    # @api.onchange('partner_route_id')
+    # def routesearch(self):
+    #     if self.partner_route_id:
+    #         id = self.partner_route_id.id
+    #         return {"domain": {'partner_id': [('route_id', '=', id)]}}
+    #     else:
+    #         return {'domain': {'partner_id': []}}
 
     def productsearch(self):
         quotelist = []

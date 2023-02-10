@@ -34,7 +34,7 @@
                             </group>
                             <group>
                                 <field name="product_accessories" widget="many2many_tags" readonly="1"/>
-                                <field name="product_fipe_ids" string="Serve em" widget="many2many_tags"/>
+
                                 <label for="showproductinformation">
                                     <strong>Preço</strong>
                                 </label>
@@ -51,6 +51,18 @@
                     <page string="Cotações anteriores">
                         <p>O campo abaixo detalha todas as cotações feitas desse produto anteriormente</p>
                         <field name="product_quotes" readonly="1"/>
+                    </page>
+                    <page string="Informações do carro">
+                        <group>
+                            <field name="product_fipe_ids" string="Serve em">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="marca"/>
+                                    <field name="ano"/>
+                                    <field name="codigo_fipe"/>
+                                </tree>
+                            </field>
+                        </group>
                     </page>
                 </notebook>
                 <footer>
