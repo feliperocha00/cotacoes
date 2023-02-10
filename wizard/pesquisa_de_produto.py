@@ -7,6 +7,9 @@ class ProductSearch(models.TransientModel):
     #barra de pesquisa
     product_search = fields.Char()
 
+    #mensagem caso não encontre produto
+    show_msg_not_found = fields.Boolean()
+
     # SELEÇÃO DO PRODUTO PRINCIPAL
     product_id = fields.Many2one(
         comodel_name='product.product',
@@ -81,11 +84,11 @@ class ProductSearch(models.TransientModel):
         }
     
     @api.onchange('product_search')
-    def search_bar(self):
+    def search_bar(self): # função para pesquisar o produto com o campo 'product_search'
         if self.product_search:
-            name_split = self.product_search.split()
-            domain = []
-            for palavra in name_split:
+            name_split = self.product_search.split() # função que separa o que foi escrito por espaço
+            domain = [] # variável que armazenará o domain
+            for palavra in name_split: # for que caminha em tudo que foi escrito e pesquisa as condições abaixo em cada palavra
                 domain.append('|')
                 domain.append('|')
                 domain.append('|')
@@ -95,8 +98,12 @@ class ProductSearch(models.TransientModel):
                 domain.append(('fipe_ids', 'ilike', palavra))
                 domain.append(('codigo_fipe', 'ilike', palavra))
                 domain.append(('fipe_ano', 'ilike', palavra))
-            products = self.env['product.product'].search(domain)
-            if self.product_search:
+            products = self.env['product.product'].search(domain) # variável que armazena os produtos encontrados
+            if len(products) == 0: # condição para dar valor à variável que fará com que a mensagem apareça para o vendedor
+                self.show_msg_not_found = True
+            else:
+                self.show_msg_not_found = False
+            if self.product_search: # domain final
                 return {"domain": {'product_id': [('id', 'in', products.ids)]}}
             else:
                 return {'domain': {'product_id': []}}
