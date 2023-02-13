@@ -112,7 +112,7 @@ class ProductData(models.TransientModel):
     concorrente = fields.Many2one(
         comodel_name='res.partner',
         string='Concorrente',
-        domain="[('is_concorrente','=',True)]"
+        domain="[('is_concorrente','=',True),('active','=',False)]"
     )
 
     # INSERÇÃO DE VALOR DO PRODUTO NA CONCORRÊNCIA
@@ -231,8 +231,10 @@ class ProductData(models.TransientModel):
                     'name': self.concorrente.id,
                     'data': self.data,
                     'value': self.value}
-
+            self.concorrente.is_concorrente = True
+            self.concorrente.active = False
             self.env['preco.concorrente'].create(vals)
+
 
         return {
             'type': 'ir.actions.act_window',
