@@ -107,5 +107,5 @@ class ProductSearch(models.TransientModel):
                 return {"domain": {'product_id': [('id', 'in', products.ids)]}}
             else:
                 return {'domain': {'product_id': []}}
-        else:
+        else: # else para limpar o campo produto caso o campo de pesquisa seja apagado
             self.product_id = False
