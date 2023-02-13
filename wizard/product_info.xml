@@ -90,7 +90,7 @@
                            tabindex="2">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="name"/>
+                            <field name="name" readonly="1"/>
                             <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                    readonly="1"/>
                             <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
@@ -103,7 +103,7 @@
                     <field name="variant_ids" nolabel="1" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="3">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="name"/>
+                            <field name="name" readonly="1"/>
                             <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                    readonly="1"/>
                             <field name="accessory_product_ids" widget="many2many_tags" readonly="1"/>
@@ -120,7 +120,7 @@
                            tabindex="4">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="name"/>
+                            <field name="name" readonly="1"/>
                             <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                    readonly="1"/>
                             <field name="qty_available" readonly="1" string="Qnt. Disponível"/>
@@ -133,7 +133,7 @@
                     <field name="optional_ids" nolabel="1" attrs="{'invisible':[('is_unv','=',0)]}" tabindex="5">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="name"/>
+                            <field name="name" readonly="1"/>
                             <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                    readonly="1"/>
                             <field name="accessory_product_ids" widget="many2many_tags" readonly="1"/>
@@ -150,7 +150,7 @@
                            tabindex="6">
                         <tree editable="1">
                             <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="name"/>
+                            <field name="name" readonly="1"/>
                             <field name="product_template_attribute_value_ids" widget="many2many_tags"
                                    readonly="1"/>
                             <field name="qty_available" readonly="1" string="Qnt. Disponível"/>

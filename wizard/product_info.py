@@ -172,14 +172,11 @@ class ProductData(models.TransientModel):
 
     @api.onchange('product_id')
     def carregar_variante(self):
-        if self.product_qty > 0:
-            return
-        else:
-            product_var_ids = self.env['product.product'].search(
-                [('product_tmpl_id', '=', self.product_id.product_tmpl_id.id), ('id', '!=', self.product_id.id),
-                 ('virtual_available', '>', 0.0)])
+        product_var_ids = self.env['product.product'].search(
+            [('product_tmpl_id', '=', self.product_id.product_tmpl_id.id), ('id', '!=', self.product_id.id),
+             ('virtual_available', '>', 0.0)])
 
-            self.variant_ids = product_var_ids
+        self.variant_ids = product_var_ids
 
     @api.onchange('product_id')
     def carregar_opcional(self):
