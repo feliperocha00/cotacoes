@@ -14,7 +14,15 @@
                 <h2 style="color: #543A75; text-align: center">Pesquisa do Produto</h2>
                 <center><h4 attrs="{'invisible':['|',('show_msg_not_found','=',False),('product_search','=','')]}">Nenhum produto encontrado com essa descrição!</h4></center>
                 <field name="show_msg_not_found" invisible="True"/>
-                <field name="product_search"/>
+                <group>
+                    <div>
+                        <field name="product_search"
+                               style="width: 95%"/>
+                        <button name="visualize_product" class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
+                                                aria-label="Visualizar Produto"
+                                                title="Visualizar Produto"/>
+                    </div>
+                </group>
                 <group>
                     <div class="o_row">
                         <div style="display: flex; flex-direction: column; align-items: center;">
