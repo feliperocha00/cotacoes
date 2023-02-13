@@ -176,6 +176,28 @@ class ProductData(models.TransientModel):
                 accessory.append(acess)
             self.opt_accessories_ids = accessory
 
+    @api.onchange('product_id')
+    def carregar_variante(self):
+        product_var_ids = self.env['product.product'].search(
+            [('product_tmpl_id', '=', self.product_id.product_tmpl_id.id), ('id', '!=', self.product_id.id),
+             ('virtual_available', '>', 0.0)])
+
+        self.variant_ids = product_var_ids
+
+    @api.onchange('product_id')
+    def carregar_opcional(self):
+        if self.wish_qty > self.product_qty:
+            product_ids = self.env['product.product'].search([('product_tmpl_id','in', self.opt_product_ids.ids), ('virtual_available','>',0)])
+            self.optional_ids = product_ids
+
+    # @api.onchange('optional_ids')
+    # def var_accessories(self):
+    #     accessory_opt = []
+    #     if self.variant_ids:
+    #         for acess_opt in self.optional_ids.accessory_product_ids.ids:
+    #             accessory_opt.append(acess_opt)
+    #         self.var_accessory_ids = accessory_opt
+
     def quote(self):
         quotelist = []
         for quote in self.quote_list.ids:
