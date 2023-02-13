@@ -129,6 +129,8 @@ class ProductData(models.TransientModel):
         string='Preços de concorrente'
     )
 
+
+
     # Booleano de disponibilidade para usar no attrs
     is_unv = fields.Integer()
 
@@ -149,10 +151,14 @@ class ProductData(models.TransientModel):
     def prod_accessories(self):
         accessory = []
         if self.product_id:
+            if self.wish_qty > self.product_id.virtual_available:
+                self.product_id.stk_ins = True
+
             if self.product_id.virtual_available > 0:
                 for acess in self.product_accessories_ids.ids:
                     accessory.append(acess)
                 self.accessories_ids = accessory
+
 
     @api.onchange('variant_ids')
     def var_accessories(self):

@@ -49,10 +49,12 @@
                         <tree>
                             <field name="pre_wish_qty" string="Qtd. Desejada"/>
                             <field name="wish_qty" string="Qtd. Cotada"/>
+                            <field name="stock_qty" string="Qtd. no Estoque"/>
                             <field name="product_id" string="Produto"/>
                             <field name="product_brands" string="Marca" widget="many2many_tags"/>
                             <field name="product_price" string="Preço"/>
                             <field name="quoted_stock" string="Disp. para Cotar"/>
+                            <field name="stk_ins"/>
                         </tree>
                     </field>
                 </group>

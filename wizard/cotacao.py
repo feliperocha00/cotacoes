@@ -8,7 +8,7 @@ class CotacoesVendas(models.TransientModel):
     # CONSULTA DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
     partner_phone = fields.Char(string='Telefone', readonly=1)
-    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota')
+    partner_route_id = fields.Many2one(comodel_name='routes', string='Rota', readonly=1)
     partner_street = fields.Char(string='Rua', readonly=1)
     partner_city = fields.Char(string='Cidade', readonly=1)
     partner_email = fields.Char(string='E-mail', readonly=1)
@@ -16,6 +16,7 @@ class CotacoesVendas(models.TransientModel):
     date = fields.Date(string='Data de Emissão', default=date.today(), readonly=True)
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
+
 
     # LISTA DE COTAÇÃO
     quote_list = fields.Many2many(
@@ -54,13 +55,13 @@ class CotacoesVendas(models.TransientModel):
                 self.partner_email = False
                 self.partner_fantasy_name = False
 
-    @api.onchange('partner_route_id')
-    def routesearch(self):
-        if self.partner_route_id:
-            id = self.partner_route_id.id
-            return {"domain": {'partner_id': [('route_id', '=', id)]}}
-        else:
-            return {'domain': {'partner_id': []}}
+    # @api.onchange('partner_route_id')
+    # def routesearch(self):
+    #     if self.partner_route_id:
+    #         id = self.partner_route_id.id
+    #         return {"domain": {'partner_id': [('route_id', '=', id)]}}
+    #     else:
+    #         return {'domain': {'partner_id': []}}
 
     def productsearch(self):
         quotelist = []
@@ -128,14 +129,21 @@ class CotacoesVendas(models.TransientModel):
                              'product_id': prods.id,
                              'cotacao_id': quote_bi.id,
                              'quoted_stock': prods.quoted_stock,
-                             'will_quote': prods.will_quote}
+                             'will_quote': prods.will_quote,
+                             'stk_ins': prods.stk_ins}
 
             self.env['cotacao.b.i.list'].create(vals_lines_bi)
+
+
 
         qtys = self.env['product.product'].search([])
 
         for prods in qtys:
             prods.write({'wish_qty': 0})
+            prods.write({'pre_wish_qty': 0})
+            prods.write({'quoted_stock': True})
+            prods.write({'will_quote': True})
+            prods.write({'stk_ins': False})
 
         return {
             'type': "ir.actions.act_window",

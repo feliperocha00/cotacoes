@@ -47,6 +47,8 @@ class CotacaoBIList(models.Model):
 
     product_id = fields.Many2one(comodel_name='product.product')
 
+    stock_qty = fields.Float(related="product_id.virtual_available")
+
     product_brands = fields.Many2many(related='product_id.product_template_attribute_value_ids')
 
     product_price = fields.Float(related='product_id.lst_price')
@@ -54,3 +56,5 @@ class CotacaoBIList(models.Model):
     quoted_stock = fields.Boolean()
 
     will_quote = fields.Boolean()
+
+    stk_ins = fields.Boolean(string="Estoque insuficiente?")

@@ -25,7 +25,7 @@
                         <field name="expire_date" required="1" tabindex="3"/>
                     </group>
                     <group>
-                        <field name="partner_route_id" options="{'no_open':True}" tabindex="2"/>
+                        <field name="partner_route_id" options="{'no_open':True}"/>
                         <field name="partner_street"/>
                         <field name="partner_city"/>
                         <field name="date"/>
@@ -43,6 +43,7 @@
                                 <field name="lst_price" string="Preço"/>
                                 <field name="quoted_stock" string="Disponível para cotar"/>
                                 <field name="will_quote" string="Cotar" />
+                                <field name="stk_ins"/>
                             </tree>
                         </field>
                         <div style="text-align: right; margin-right: 20px">
