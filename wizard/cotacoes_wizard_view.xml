@@ -20,6 +20,7 @@
                         <field name="partner_id" required="1"
                                options="{'no_open':True, 'no_create':True, 'no_create_edit':True}" tabindex="1"/>
                         <field name="partner_fantasy_name"/>
+                        <field name="partner_credit_limit"/>
                         <field name="partner_phone"/>
                         <field name="partner_email"/>
                         <field name="expire_date" required="1" tabindex="3"/>

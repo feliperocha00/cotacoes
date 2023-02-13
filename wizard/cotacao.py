@@ -7,6 +7,7 @@ class CotacoesVendas(models.TransientModel):
 
     # CONSULTA DE CLIENTE
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
+    partner_credit_limit = fields.Float(string='Limite de crédito', readonly=1)
     partner_phone = fields.Char(string='Telefone', readonly=1)
     partner_route_id = fields.Many2one(comodel_name='routes', string='Rota', readonly=1)
     partner_street = fields.Char(string='Rua', readonly=1)
@@ -46,6 +47,7 @@ class CotacoesVendas(models.TransientModel):
                 self.partner_city = name.city
                 self.partner_email = name.email
                 self.partner_fantasy_name = name.name_fantasy
+                self.partner_credit_limit = name.credit_limit_compute
         else:
             for name in self.partner_id:
                 self.partner_phone = False
@@ -54,6 +56,7 @@ class CotacoesVendas(models.TransientModel):
                 self.partner_city = False
                 self.partner_email = False
                 self.partner_fantasy_name = False
+                self.partner_credit_limit = False
 
     # @api.onchange('partner_route_id')
     # def routesearch(self):
