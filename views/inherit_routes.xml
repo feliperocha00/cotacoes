@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="extencao_form" model="ir.ui.view">
+        <field name="name">extencao routes</field>
+        <field name="model">routes</field>
+        <field name="inherit_id" ref="routes-main.criacao_rotas_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='nome_rota']" position="after">
+                <field name="dia_rota" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
