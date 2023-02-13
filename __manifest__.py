@@ -15,6 +15,7 @@
         'wizard/product_info.xml',
         'wizard/product_cotado_view.xml',
         'security/ir.model.access.csv',
+        'views/inherit_routes.xml',
     ],
     'license': 'LGPL-3',
 }
