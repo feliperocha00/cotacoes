@@ -6,5 +6,4 @@ info_product_user,info_product_user,model_quoted_product_info,base.group_user,1,
 cotacao_bi_user,cotacao_bi_user,model_cotacao_b_i,base.group_user,1,1,1,1
 cotacao_bi_list_user,cotacao_bi_list_user,model_cotacao_b_i_list,base.group_user,1,1,1,1
 preco_concorrente,preco_concorrente,model_preco_concorrente,base.group_user,1,1,1,1
-dia_rota,dia_rota,model_dia_rota,base.group_user,1,1,1,1
 

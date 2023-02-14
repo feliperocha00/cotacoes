@@ -59,21 +59,11 @@ class CotacoesVendas(models.TransientModel):
     @api.onchange('partner_route_id')
     def calcula_vencimento(self):
         today = datetime.date.today()
-        weekday = today.weekday()
-
-        days_of_week = ["Segunda-feira",
-                        "Terça-feira",
-                        "Quarta-feira",
-                        "Quinta-feira",
-                        "Sexta-feira",
-                        "Sábado",
-                        "Domingo"]
-        dia_rota = []
-        for rec in self.partner_route_id.dia_rota:
-            dia_rota.append(rec.dia)
-        if self.partner_route_id:
-            while days_of_week[today.weekday()] != dia_rota[-1]:
-                today += datetime.timedelta(days=1)
+        if self.partner_route_id.validade != 0:
+            today += datetime.timedelta(days=self.partner_route_id.validade)
+            self.expire_date = today
+        else:
+            today += datetime.timedelta(days=3)
             self.expire_date = today
 
     @api.onchange('partner_id')# função que preenche o field com as cotações
