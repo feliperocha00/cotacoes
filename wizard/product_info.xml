@@ -56,12 +56,8 @@
                             </div>
                         </group>
                         <group>
-                            <field name="precos_de_concorrente">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="value"/>
-                                </tree>
-                            </field>
+                            <field name="vendedor"/>
+                            <field name="descricao"/>
                         </group>
                     </page>
                 </notebook>
