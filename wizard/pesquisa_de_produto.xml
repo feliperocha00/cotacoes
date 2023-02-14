@@ -12,32 +12,44 @@
         <field name="arch" type="xml">
             <form>
                 <h2 style="color: #543A75; text-align: center">Pesquisa do Produto</h2>
-                <center><h4 attrs="{'invisible':['|',('show_msg_not_found','=',False),('product_search','=','')]}">Nenhum produto encontrado com essa descrição!</h4></center>
+                <center>
+                    <h4 attrs="{'invisible':['|',('show_msg_not_found','=',False),('product_search','=','')]}">Nenhum
+                        produto encontrado com essa descrição!
+                    </h4>
+                </center>
                 <field name="show_msg_not_found" invisible="True"/>
                 <group>
                     <div>
                         <field name="product_search"
                                style="width: 95%"/>
                         <button name="visualize_product" class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
-                                                aria-label="Visualizar Produto"
-                                                title="Visualizar Produto"/>
+                                aria-label="Visualizar Produto"
+                                title="Visualizar Produto"/>
                     </div>
                 </group>
                 <group>
                     <div class="o_row">
                         <div style="display: flex; flex-direction: column; align-items: center;">
-                            <h4 attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}">Escolha do Produto</h4>
+                            <h4 attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}">
+                                Escolha do Produto
+                            </h4>
                             <field name="product_id" options="{'no_open':True, 'no_create':True, 'no_create_edit':True}"
                                    context="{'tree_view_ref': 'cotacoes.search_more_inherit_list_view'}"
                                    attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}"/>
                         </div>
-                        <div  style="max-width: 60px; display: flex; flex-direction: column; align-items: center;">
-                            <h4 attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}">Qtd</h4>
+                        <div style="max-width: 60px; display: flex; flex-direction: column; align-items: center;">
+                            <h4 attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}">Qtd
+                            </h4>
                             <field name="wish_qty" widget="integer"
                                    attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}"/>
                         </div>
-                        <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
-                                attrs="{'invisible':[('product_id','=',False)]}" tabindex="3"/>
+                        <div style="max-width: 60px; display: flex; flex-direction: column; align-items: center;"
+                             attrs="{'invisible':[('product_id','=',False)]}">
+                            <h4 attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}">
+                            </h4>
+                            <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
+                                    attrs="{'invisible':[('product_id','=',False)]}" tabindex="3" style="height: 80%"/>
+                        </div>
                     </div>
                 </group>
                 <footer>
