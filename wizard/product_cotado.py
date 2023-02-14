@@ -12,11 +12,11 @@ class ProductCotado(models.TransientModel):
     product_type = fields.Selection(related='product_id.type')
     product_price = fields.Float(related='product_id.lst_price')
     product_image = fields.Binary(related='product_id.image_1920')
+    product_more_images = fields.One2many(related='product_id.product_template_image_ids')
     product_barcode = fields.Char(related='product_id.barcode')
     product_accessories = fields.Many2many(related='product_id.accessory_product_ids', string='Acessórios')
 
-    #RELATEDS DE 'product_fipe_ids'
-
+    #RELATED'S DE 'product_fipe_ids'
     nome = fields.Char(related="product_id.fipe_ids.name")
     marca = fields.Char(related="product_id.fipe_ids.marca")
     ano = fields.Integer(related="product_id.fipe_ids.ano")
@@ -33,10 +33,12 @@ class ProductCotado(models.TransientModel):
         relation="cotacao_prod_rel",
     )
 
+    # COTAÇÕES DESSE PRODUTO FEITAS PELO CLIENTE SELECIONADO
     quotes_by_partner = fields.Many2many(
         comodel_name='sale.order'
     )
 
+    # TODAS AS COTAÇÕES DESSE PRODUTO
     product_quotes = fields.Many2many(
         comodel_name='sale.order',
         relation='quotes_product_quotes_rel'
@@ -47,6 +49,7 @@ class ProductCotado(models.TransientModel):
         string='Quantidade desejada',
     )
 
+    # POPULAR OS CAMPOS DE COTAÇÃO ANTERIORES
     @api.onchange('product_id')
     def quotesbypartner(self):
         if self.product_id:
@@ -65,6 +68,7 @@ class ProductCotado(models.TransientModel):
             self.quotes_by_partner = sales_ids
             self.product_quotes = sales_prod_ids
 
+    # MOSTRAR INFORMAÇÕES DO PRODUTO E ENVIAR PRODUTO PARA A LISTA DE COTAÇÃO
     def showproductinformation(self):
         quotelist = []
 
@@ -93,6 +97,7 @@ class ProductCotado(models.TransientModel):
             'target': 'new'
         }
 
+    # CLIENTE DESISTE DO PRODUTO
     def cancela(self):
         ctx = dict()
         ctx.update({

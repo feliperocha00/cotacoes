@@ -52,16 +52,22 @@
                         <p>O campo abaixo detalha todas as cotações feitas desse produto anteriormente</p>
                         <field name="product_quotes" readonly="1"/>
                     </page>
-                    <page string="Informações do carro">
+                    <page string="Serve em">
                         <group>
                             <field name="product_fipe_ids" string="Serve em">
-                                <tree>
+                                <tree limit="10">
                                     <field name="name"/>
                                     <field name="marca"/>
                                     <field name="ano"/>
                                     <field name="codigo_fipe"/>
                                 </tree>
                             </field>
+                        </group>
+                    </page>
+                    <page string="Mais imagens">
+                        <group>
+                            <field name="product_more_images" nolabel="1" class="o_website_sale_image_list"
+                                   mode="kanban"/>
                         </group>
                     </page>
                 </notebook>
