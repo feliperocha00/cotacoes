@@ -44,18 +44,23 @@
                         <field name="payment_conditions" options="{'no_open':True}"/>
                     </group>
                 </group>
-                <group>
-                    <field name="quote_list" nolabel="1">
-                        <tree>
-                            <field name="pre_wish_qty" string="Qtd. Desejada"/>
-                            <field name="wish_qty" string="Qtd. Cotada"/>
-                            <field name="product_id" string="Produto"/>
-                            <field name="product_brands" string="Marca" widget="many2many_tags"/>
-                            <field name="product_price" string="Preço"/>
-                            <field name="quoted_stock" string="Disp. para Cotar"/>
-                        </tree>
-                    </field>
-                </group>
+                <notebook>
+                    <page string="Produtos Cotados">
+                        <field name="quote_list" nolabel="1">
+                            <tree>
+                                <field name="pre_wish_qty" string="Qtd. Desejada"/>
+                                <field name="wish_qty" string="Qtd. Cotada"/>
+                                <field name="product_id" string="Produto"/>
+                                <field name="product_brands" string="Marca" widget="many2many_tags"/>
+                                <field name="product_price" string="Preço"/>
+                                <field name="quoted_stock" string="Disp. para Cotar"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Cotações Anteriores">
+                        <field name="previous_quotations"/>
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>

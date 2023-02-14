@@ -24,17 +24,20 @@ class CotacaoBI(models.Model):
         inverse_name='cotacao_id',
     )
 
-    # variant_ids = fields.Many2many(
-    #     comodel_name='product.product',
-    #     relation='cotacao_bi_variant_product_rel'
-    # )
-    #
-    # optional_ids = fields.Many2many(
-    #     comodel_name='product.product',
-    #     relation='cotacao_bi_optional_product_rel'
-    # )
+    # LISTA QUE MOSTRA AS COTAÇÕES ANTERIORES DESSE MESMO CLIENTE
+    previous_quotations = fields.Many2many(
+        comodel_name='cotacao.b.i',
+        relation="prev_quot_rel",
+        column1="quotation_b_i",
+        column2="previous_quotations",
+        compute="fill_quotations"
+    )
 
-
+    def fill_quotations(self):
+        for rec in self:
+            if rec.partner_id:
+                quotations = self.env['cotacao.b.i'].search([('partner_id.id', '=', self.partner_id.id)])
+                rec.previous_quotations = quotations.ids
 class CotacaoBIList(models.Model):
     _name = 'cotacao.b.i.list'
     _rec_name = 'product_id'
