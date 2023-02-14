@@ -10,6 +10,9 @@ class ProductSearch(models.TransientModel):
     #mensagem caso não encontre produto
     show_msg_not_found = fields.Boolean()
 
+    # boolean que servirá de attrs para mostrar os campos
+    show_product = fields.Boolean()
+
     # SELEÇÃO DO PRODUTO PRINCIPAL
     product_id = fields.Many2one(
         comodel_name='product.product',
@@ -118,4 +121,29 @@ class ProductSearch(models.TransientModel):
             self.product_id = False
 
     def visualize_product(self):
-        pass 
+        quotelist = []
+        for quote in self.quote_list.ids:
+            quotelist.append(quote)
+        ctx = dict()
+        ctx.update({
+            'default_partner_id': self.partner_id.id,
+            'default_expire_date': self.expire_date,
+            'default_payment_conditions': self.payment_conditions.id,
+            'default_quote_list': quotelist,
+            'default_show_product': True,
+            'default_product_search': self.product_search
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Pesquisa de Produto',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.search',
+            'views': [[self.env.ref("cotacoes.pesquisa_de_produto_form_view").id, 'form']],
+            'context': ctx,
+            'target': 'new'
+        }
+    @api.onchange('product_search')
+    def erase_search_bar(self):
+        if self.product_search == '':
+            self.show_product = False
