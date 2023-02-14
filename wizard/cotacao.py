@@ -39,7 +39,8 @@ class CotacoesVendas(models.TransientModel):
 
     # COTAÇÕES ANTERIORES FEITAS PELO CLIENTE SELECIONADO
     partner_quotes = fields.Many2many(
-        comodel_name='sale.order',
+        comodel_name='cotacao.b.i',
+        relation="cotacao_bi_rel"
     )
 
     # CALCULO DO PREÇO SUBTOTAL DA COTACAO
@@ -75,11 +76,11 @@ class CotacoesVendas(models.TransientModel):
                 today += datetime.timedelta(days=1)
             self.expire_date = today
 
-    @api.onchange('partner_id')
+    @api.onchange('partner_id')# função que preenche o field com as cotações
     def part_quotes(self):
         if self.partner_id:
-            sales = self.env['sale.order'].search([('partner_id.id', '=', self.partner_id.id)])
-            self.partner_quotes = sales
+            quotes = self.env['cotacoes'].search([('partner_id.id', '=', self.partner_id.id)])
+            self.partner_quotes = quotes
         else:
             self.partner_quotes = False
 
