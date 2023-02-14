@@ -24,14 +24,15 @@ class CotacoesVendas(models.TransientModel):
     )
 
     partner_quotes = fields.Many2many(
-        comodel_name='sale.order',
+        comodel_name='cotacao.b.i',
+        relation="cotacao_bi_rel"
     )
 
     @api.onchange('partner_id')
     def part_quotes(self):
         if self.partner_id:
-            sales = self.env['sale.order'].search([('partner_id.id', '=', self.partner_id.id)])
-            self.partner_quotes = sales
+            quotes = self.env['cotacao.b.i'].search([('partner_id.id', '=', self.partner_id.id)])
+            self.partner_quotes = quotes.ids
         else:
             self.partner_quotes = False
 

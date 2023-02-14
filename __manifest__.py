@@ -6,7 +6,7 @@
     'category': 'Sales',
     'author': 'Felipe Rocha Dias',
     'company': 'SUPERGLASS',
-    'depends': ['base', 'sale_management', 'routes-main', 'product', 'account'],
+    'depends': ['base', 'sale_management', 'routes', 'product', 'account'],
     'data': [
         'views/cotacao_bi_view.xml',
         'wizard/cotacoes_wizard_view.xml',

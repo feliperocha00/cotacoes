@@ -111,4 +111,4 @@ class ProductSearch(models.TransientModel):
             self.product_id = False
 
     def visualize_product(self):
-        pass 
+        pass

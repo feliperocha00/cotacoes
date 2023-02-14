@@ -36,8 +36,11 @@
                             <field name="wish_qty" widget="integer"
                                    attrs="{'invisible':['|',('product_search','=',''),('product_search','=',False)]}"/>
                         </div>
-                        <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
-                                attrs="{'invisible':[('product_id','=',False)]}" tabindex="3"/>
+                        <div attrs="{'invisible':[('product_id','=',False)]}">
+                            <h6></h6>
+                            <button name="showproduct" type="object" string="Mostrar" class="btn btn-primary"
+                                     tabindex="3"/>
+                        </div>
                     </div>
                 </group>
                 <footer>
