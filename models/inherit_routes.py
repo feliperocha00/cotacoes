@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import datetime
 
+
 class DiaRota(models.Model):
     _name = 'dia.rota'
 
