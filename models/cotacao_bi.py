@@ -24,15 +24,24 @@ class CotacaoBI(models.Model):
         inverse_name='cotacao_id',
     )
 
-    # variant_ids = fields.Many2many(
-    #     comodel_name='product.product',
-    #     relation='cotacao_bi_variant_product_rel'
-    # )
-    #
-    # optional_ids = fields.Many2many(
-    #     comodel_name='product.product',
-    #     relation='cotacao_bi_optional_product_rel'
-    # )
+    # CAMPO QUE ARMAZENA O PRE PEDIDO CRIADO PELA COTACAO
+    pre_order_id = fields.Many2one(
+        comodel_name='sale.order',
+        string='Pré-pedido criado',
+        readonly=True
+    )
+
+    # FUNCAO PARA ABRIR O PRE PEDIDO QUE FOI CRIADO PELA COTACAO
+    def preorder(self):
+        return {
+            'type': "ir.actions.act_window",
+            'view_type': "form",
+            'view_mode': "form",
+            'res_id': self.pre_order_id.id,
+            'res_model': "sale.order",
+            'views': [[self.env.ref("sale.view_order_form").id, 'form']],
+            'target': 'current',
+        }
 
 
 class CotacaoBIList(models.Model):
