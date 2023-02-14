@@ -60,6 +60,12 @@ class ProductInherit(models.Model):
 class PrecoConcorrente(models.Model):
     _name = 'preco.concorrente'
 
+    vendedor = fields.Many2one('res.users')
+
+    descricao = fields.Text(
+        string='Descrição'
+    )
+
     product_id = fields.Many2one(
         comodel_name='product.product',
         string='Produto'

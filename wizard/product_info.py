@@ -6,6 +6,14 @@ from odoo import fields, models, api, _
 class ProductData(models.TransientModel):
     _name = 'quoted.product.info'
 
+    vendedor = fields.Many2one('res.users',
+                               default=lambda self: self.env.uid,
+                               readonly=True)
+
+    descricao = fields.Text(
+        string='Descrição'
+    )
+
     # PRODUTO PRINCIPAL
     product_id = fields.Many2one(
         comodel_name='product.product'
@@ -163,6 +171,8 @@ class ProductData(models.TransientModel):
             for acess in self.variant_ids.accessory_product_ids.ids:
                 accessory.append(acess)
             self.var_accessory_ids = accessory
+        else:
+            self.var_accessory_ids = False
 
     @api.onchange('optional_ids')
     def opt_accessories(self):
@@ -171,6 +181,8 @@ class ProductData(models.TransientModel):
             for acess in self.optional_ids.accessory_product_ids.ids:
                 accessory.append(acess)
             self.opt_accessories_ids = accessory
+        else:
+            self.opt_accessories_ids = False
 
     @api.onchange('product_id')
     def carregar_variante(self):
@@ -184,7 +196,8 @@ class ProductData(models.TransientModel):
     @api.onchange('product_id')
     def carregar_opcional(self):
         if self.wish_qty > self.product_qty:
-            product_ids = self.env['product.product'].search([('product_tmpl_id','in', self.opt_product_ids.ids), ('virtual_available','>',0)])
+            product_ids = self.env['product.product'].search(
+                [('product_tmpl_id', 'in', self.opt_product_ids.ids), ('virtual_available', '>', 0)])
             self.optional_ids = product_ids
 
     def quote(self):
@@ -219,11 +232,12 @@ class ProductData(models.TransientModel):
             vals = {'product_id': self.product_id.id,
                     'name': self.concorrente.id,
                     'data': self.data,
-                    'value': self.value}
+                    'value': self.value,
+                    'vendedor': self.vendedor.id,
+                    'descricao': self.descricao}
             self.concorrente.is_concorrente = True
             self.concorrente.active = False
             self.env['preco.concorrente'].create(vals)
-
 
         return {
             'type': 'ir.actions.act_window',
