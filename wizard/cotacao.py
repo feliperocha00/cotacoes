@@ -79,8 +79,8 @@ class CotacoesVendas(models.TransientModel):
     @api.onchange('partner_id')# função que preenche o field com as cotações
     def part_quotes(self):
         if self.partner_id:
-            quotes = self.env['cotacoes'].search([('partner_id.id', '=', self.partner_id.id)])
-            self.partner_quotes = quotes
+            quotes = self.env['cotacao.b.i'].search([('partner_id.id', '=', self.partner_id.id)])
+            self.partner_quotes = quotes.ids
         else:
             self.partner_quotes = False
 
