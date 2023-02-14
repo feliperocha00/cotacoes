@@ -56,27 +56,6 @@ class ProductInherit(models.Model):
             else:
                 rec.quoted_stock = False
 
-    # COPIEI DO MILA https://github.com/mikunatic/cotacao/blob/main/models/product_extension.py
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        args = args or []
-        name_split = name.split()
-        array = []
-        for palavra in name_split:
-            array.append('|')
-            array.append('|')
-            array.append('|')
-            array.append('|')
-            array.append(('name', operator, palavra))
-            array.append(('product_template_attribute_value_ids', operator, palavra))
-            array.append(('fipe_ids', operator, palavra))
-            array.append(('codigo_fipe', operator, palavra))
-            array.append(('fipe_ano', operator, palavra))
-        if name:
-            pesquisa = self.search(array)
-            return pesquisa.name_get()
-        return self.search([('name', operator, name)] + args, limit=limit).name_get()
-
 
 class PrecoConcorrente(models.Model):
     _name = 'preco.concorrente'
