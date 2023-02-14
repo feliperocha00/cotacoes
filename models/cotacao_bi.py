@@ -31,6 +31,15 @@ class CotacaoBI(models.Model):
         readonly=True
     )
 
+    # LISTA QUE MOSTRA AS COTAÇÕES ANTERIORES DESSE MESMO CLIENTE
+    # previous_quotations = fields.Many2many(
+    #     comodel_name='cotacao.b.i',
+    #     relation="prev_quot_rel",
+    #     column1="quotation_b_i",
+    #     column2="previous_quotations",
+    #     compute="fill_quotations"
+    # )#######
+
     # FUNCAO PARA ABRIR O PRE PEDIDO QUE FOI CRIADO PELA COTACAO
     def preorder(self):
         return {
