@@ -19,16 +19,41 @@ class CotacoesVendas(models.TransientModel):
     expire_date = fields.Date(string='Data de Vencimento', default=date.today())
     payment_conditions = fields.Many2one(comodel_name='account.payment.term')
 
-
     # LISTA DE COTAÇÃO
     quote_list = fields.Many2many(
         comodel_name="product.product",
         relation="cotacao_product_rel",
     )
 
+    # SUBTOTAL DA COTACAO PREENCHIDA PELO ONCHANGE total_comprado
+    sub_total = fields.Float(
+        string='Sub-Total',
+        readonly=True
+    )
+
+    # TOTAL DA COTACAO PREENCHIDA PELO ONCHANGE total_comprado
+    total = fields.Float(
+        string='Total',
+        readonly=True
+    )
+
+    # COTAÇÕES ANTERIORES FEITAS PELO CLIENTE SELECIONADO
     partner_quotes = fields.Many2many(
         comodel_name='sale.order',
     )
+
+    # CALCULO DO PREÇO SUBTOTAL DA COTACAO
+    @api.onchange('quote_list')
+    def sub_total_comprado(self):
+        for rec in self.quote_list:
+            self.sub_total += (rec.lst_price * rec.wish_qty)
+
+    # CALCULO DO PREÇO TOTAL DA COTACAO
+    @api.onchange('quote_list')
+    def total_comprado(self):
+        for rec in self.quote_list:
+            if rec.will_quote and rec.quoted_stock:
+                self.total += (rec.lst_price * rec.wish_qty)
 
     @api.onchange('partner_route_id')
     def calcula_vencimento(self):
@@ -49,11 +74,6 @@ class CotacoesVendas(models.TransientModel):
             while days_of_week[today.weekday()] != dia_rota[-1]:
                 today += datetime.timedelta(days=1)
             self.expire_date = today
-
-
-
-
-
 
     @api.onchange('partner_id')
     def part_quotes(self):
@@ -83,14 +103,6 @@ class CotacoesVendas(models.TransientModel):
                 self.partner_email = False
                 self.partner_fantasy_name = False
                 self.partner_credit_limit = False
-
-    # @api.onchange('partner_route_id')
-    # def routesearch(self):
-    #     if self.partner_route_id:
-    #         id = self.partner_route_id.id
-    #         return {"domain": {'partner_id': [('route_id', '=', id)]}}
-    #     else:
-    #         return {'domain': {'partner_id': []}}
 
     def productsearch(self):
         quotelist = []
@@ -131,13 +143,14 @@ class CotacoesVendas(models.TransientModel):
             'payment_term_id': self.payment_conditions.id,
         }
 
+        quote = self.env['sale.order'].create(vals_list)
+
         vals_cotacao_bi = {
             'partner_id': self.partner_id.id,
+            'pre_order_id': quote.id,
             'expire_date': self.expire_date,
             'payment_conditions': self.payment_conditions.id
         }
-
-        quote = self.env['sale.order'].create(vals_list)
 
         quote_bi = self.env['cotacao.b.i'].create(vals_cotacao_bi)
 
@@ -162,8 +175,6 @@ class CotacoesVendas(models.TransientModel):
                              'stk_ins': prods.stk_ins}
 
             self.env['cotacao.b.i.list'].create(vals_lines_bi)
-
-
 
         qtys = self.env['product.product'].search([])
 
