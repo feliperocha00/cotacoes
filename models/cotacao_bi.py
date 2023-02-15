@@ -44,7 +44,7 @@ class CotacaoBI(models.Model):
     def fill_quotations(self):
         for rec in self:
             if rec.partner_id:
-                quotations = self.env['cotacao.b.i'].search([('partner_id.id', '=', self.partner_id.id)])
+                quotations = self.env['cotacao.b.i'].search([('partner_id.id', '=', self.partner_id.id), ('id', '!=', rec.id)])
                 rec.previous_quotations = quotations.ids
 
     # FUNCAO PARA ABRIR O PRE PEDIDO QUE FOI CRIADO PELA COTACAO
