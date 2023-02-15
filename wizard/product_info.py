@@ -161,7 +161,8 @@ class ProductData(models.TransientModel):
                 self.product_id.stk_ins = True
             if self.product_id.virtual_available > 0:
                 for acess in self.product_accessories_ids.ids:
-                    accessory.append(acess)
+                    if acess.virtual_available > 0:
+                        accessory.append(acess)
                 self.accessories_ids = accessory
 
     @api.onchange('variant_ids')
@@ -169,7 +170,8 @@ class ProductData(models.TransientModel):
         accessory = []
         if self.variant_ids:
             for acess in self.variant_ids.accessory_product_ids.ids:
-                accessory.append(acess)
+                if acess.virtual_available > 0:
+                    accessory.append(acess)
             self.var_accessory_ids = accessory
         else:
             self.var_accessory_ids = False
@@ -179,7 +181,8 @@ class ProductData(models.TransientModel):
         accessory = []
         if self.optional_ids:
             for acess in self.optional_ids.accessory_product_ids.ids:
-                accessory.append(acess)
+                if acess.virtual_available > 0:
+                    accessory.append(acess)
             self.opt_accessories_ids = accessory
         else:
             self.opt_accessories_ids = False
