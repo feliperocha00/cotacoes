@@ -98,6 +98,9 @@ class ProductSearch(models.TransientModel):
         if self.product_search:
             name_split = self.product_search.split() # função que separa o que foi escrito por espaço
             domain = [] # variável que armazenará o domain
+            choosed_products = []
+            for product in self.quote_list.ids:
+                choosed_products.append(product)
             for palavra in name_split: # for que caminha em tudo que foi escrito e pesquisa as condições abaixo em cada palavra
                 domain.append('|')
                 domain.append('|')
@@ -108,6 +111,7 @@ class ProductSearch(models.TransientModel):
                 domain.append(('fipe_ids', 'ilike', palavra))
                 domain.append(('codigo_fipe', 'ilike', palavra))
                 domain.append(('fipe_ano', 'ilike', palavra))
+                domain.append(('id', 'not in', choosed_products))
             products = self.env['product.product'].search(domain) # variável que armazena os produtos encontrados
             if len(products) == 0: # condição para dar valor à variável que fará com que a mensagem apareça para o vendedor
                 self.show_msg_not_found = True
