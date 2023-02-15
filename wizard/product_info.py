@@ -157,20 +157,20 @@ class ProductData(models.TransientModel):
     def prod_accessories(self):
         accessory = []
         if self.product_id:
-            if self.wish_qty > self.product_id.virtual_available:
-                self.product_id.stk_ins = True
             if self.product_id.virtual_available > 0:
-                for acess in self.product_accessories_ids.ids:
-                    accessory.append(acess)
-                self.accessories_ids = accessory
+                accessory_ids = self.env['product.product'].search(
+                    [('id', '=', self.product_id.accessory_product_ids.ids),
+                     ('virtual_available', '>', 0.0)])
+                self.accessories_ids = accessory_ids
 
     @api.onchange('variant_ids')
     def var_accessories(self):
         accessory = []
         if self.variant_ids:
-            for acess in self.variant_ids.accessory_product_ids.ids:
-                accessory.append(acess)
-            self.var_accessory_ids = accessory
+            var_accessory_ids = self.env['product.product'].search(
+                [('id', '=', self.variant_ids.accessory_product_ids.ids),
+                 ('virtual_available', '>', 0.0)])
+            self.var_accessory_ids = var_accessory_ids
         else:
             self.var_accessory_ids = False
 
@@ -178,9 +178,10 @@ class ProductData(models.TransientModel):
     def opt_accessories(self):
         accessory = []
         if self.optional_ids:
-            for acess in self.optional_ids.accessory_product_ids.ids:
-                accessory.append(acess)
-            self.opt_accessories_ids = accessory
+            opt_accessory_ids = self.env['product.product'].search(
+                [('id', '=', self.optional_ids.accessory_product_ids.ids),
+                 ('virtual_available', '>', 0.0)])
+            self.opt_accessories_ids = opt_accessory_ids
         else:
             self.opt_accessories_ids = False
 
